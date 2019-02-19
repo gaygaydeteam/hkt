@@ -20,12 +20,11 @@ import ShareLink from './src/Pages/ShareLink';
 import Transaction from './src/Pages/Transaction';
 import ChangePassword from './src/Pages/ChangePassword';
 import StaticIncome from './src/Pages/StaticIncome';
-
-const reducer = (state = {
-        mainIsReady: false,
-        isLogin: false,
-        username: '未登录',
-    }, action) => {
+const defaultState = {
+    isLogin: false,
+    username: '未登录',
+}
+const reducer = (state = defaultState, action) => {
     console.log('action type:' + action.type);
     switch(action.type) {
     case 'LOGIN_SUCCESS':
@@ -41,6 +40,8 @@ const reducer = (state = {
         });
     case 'UPDATE_USER_INFO':
         return Object.assign({}, state, action.userInfo);
+    case 'RESET_USER_STATE':
+        return Object.assign({}, defaultState);
     default:
         return state;
     }

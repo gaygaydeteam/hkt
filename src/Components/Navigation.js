@@ -67,7 +67,6 @@ export default class Navigation extends Component{
     }
     render () {
         const { list, out_money } = this.props;
-        console.log(this.props);
         return (
             <View style={Styles.container}>
                 {
