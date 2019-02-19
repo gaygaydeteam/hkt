@@ -93,9 +93,8 @@ export default class My extends Component {
                     <UserProfile editable={true} style={styles.userProfile}/>
                     <ScrollView>
                         <List name="个人信息" icon="vcard-o" id="PersonalInfo" nav={navigation}/>
-                        <List name="交易大厅" icon="cart-plus" id="Transaction" nav={navigation}/>
-                        <List name="分享链接" icon="share" nav={navigation}/>
                         <List name="收获地址" icon="tags" nav={navigation}/>
+                        <List name="修改密码" icon="cart-plus" id="ChangePassword" nav={navigation}/>
                     </ScrollView>
 				</ImageBackground>
 			</View>

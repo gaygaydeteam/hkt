@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar } from 'react-native';
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import Root from './src/Root';
 import SignIn from './src/Components/Form/SignIn';
@@ -18,6 +18,8 @@ import DynamicIncome from './src/Pages/DynamicIncome';
 import PersonalInfo from './src/Pages/PersonalInfo';
 import ShareLink from './src/Pages/ShareLink';
 import Transaction from './src/Pages/Transaction';
+import ChangePassword from './src/Pages/ChangePassword';
+import StaticIncome from './src/Pages/StaticIncome';
 
 const reducer = (state = {
         mainIsReady: false,
@@ -57,7 +59,9 @@ const Navigator = createStackNavigator({
     TotalDetail,
     Maintain,
     DynamicIncome,
-    ShareLink
+    ShareLink,
+    ChangePassword,
+    StaticIncome
 },{
     defaultNavigationOptions: ({ navigation })=> {
         const { routeName } = navigation.state;

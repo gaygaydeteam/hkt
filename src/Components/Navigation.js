@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Text, View, TouchableWithoutFeedback } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { theme } from '../Index';
+import { theme, apiUri  } from '../Index';
+import Api from '../Api/Api';
 const Styles = {
     container: {
         marginTop: 10,
@@ -41,6 +42,7 @@ const Styles = {
 export default class Navigation extends Component{
     constructor(props) {
         super(props);
+        _this = this;
     }
     link (id) {
         if(!id) {
@@ -49,13 +51,41 @@ export default class Navigation extends Component{
         }
         this.props.nav.navigate(id);
     }
+    onPress () {
+        Alert.alert('提示','确认退本还息后此账号将被永久冻结',
+            [{text: '确定', onPress: _this.onConfirm},
+            {text: '取消'},]);
+    }
+    onConfirm() {
+        const { id, token } = _this.props;
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('token', token);
+        Api.request(apiUri.getOutGame, 'POST', formData).then((responseJson) => {
+            Alert.alert(responseJson.message);
+        });
+    }
     render () {
-        const { list } = this.props;
+        const { list, out_money } = this.props;
+        console.log(this.props);
         return (
             <View style={Styles.container}>
                 {
                     list.map((item, index) => (
-                        <TouchableWithoutFeedback key={index} onPress={() => this.link(item.id)}>
+                        <TouchableWithoutFeedback key={index} onPress={() => {
+                            const Tip = '您一共可退本金: ' + out_money;
+                            if(item.id == ''){
+                                if(out_money == 0 || out_money == '0') {
+                                    Alert.alert('提示','没有可退本金', [{text: '确定'}]);
+                                }else {
+                                    Alert.alert('提示', Tip, [
+                                        {text: '确定', onPress: _this.onPress},
+                                        {text: '取消'},
+                                    ])
+                                }
+                            }else{
+                                this.link(item.id);
+                            }}}>
                             <View style={Styles.item}>
                                 <FontAwesome name={item.icon} size={22} color="red" />
                                 <Text style={Styles.itemTitle}>{item.title}</Text>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ImageBackground, Text, View, StyleSheet, TextInput, Alert } from 'react-native';
-import { appBg, theme } from '../Index';
+import { appBg, theme, apiUri } from '../Index';
 import MyButton from '../Components/Form/MyButton';
 import Api from  '../Api/Api';
 import { connect } from 'react-redux';
@@ -96,7 +96,7 @@ class Buy extends Component {
         fd.append('id', id);
         fd.append('token', token);
         fd.append('machine_specifications', machine_specifications);
-        Api.buy(fd).then((res)=>{
+        Api.request(apiUri.userBuy, 'POST', fd).then((res) => {
             console.log(res);
             if(res.code == 'error') {
                 global.toast.show(res.message);

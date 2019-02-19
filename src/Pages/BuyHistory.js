@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { appBg, apiUri } from '../Index';
+import { connect } from 'react-redux';
 import Api from '../Api/Api';
 
 const styles = StyleSheet.create({
@@ -52,14 +53,13 @@ class TransactionList extends Component {
   render() {
     return (
       <View style={styles.list}>
-      	<UserItem type={this.props.name} />
       	<UserItem type={this.props.number} />
       	<UserItem type={this.props.time} />
       </View>
     );
   }
 }
-export default class BuyHistory extends Component {
+class BuyHistory extends Component {
     static navigationOptions = {
         title: '购买记录',
     }
@@ -68,21 +68,32 @@ export default class BuyHistory extends Component {
 	    this.state = {
 	    	Buy: null
         }
-        Api.request(apiUri.getBuyHistory, 'POST').then((responseJson)=>{
+	}
+	componentDidMount() {
+        const { id, token } = this.props;
+		let formData = new FormData();
+		formData.append('id', id);
+		formData.append('token', token);
+		formData.append('type', '1');
+		Api.request(apiUri.getBuyHistory, 'POST', formData).then((responseJson)=>{
+			if(responseJson.code == 'error') {
+                global.toast.show(responseJson.message);
+                return;
+            }
             this.setState({Buy: responseJson.data})
         })
-	}
+    }
 	render () {
 		return (
 			<View style={styles.container}>
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList name="id" number="购买数量" time="挂单时间"/>
+							<TransactionList number="购买数量" time="挂单时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}
-								renderItem={({item}) => <TransactionList name={item.id} number={item.purchase_quantity} time={item.purchase_time}/>}
+								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time}/>}
 							/>
 						</View>
 					</ScrollView>
@@ -91,3 +102,4 @@ export default class BuyHistory extends Component {
 		)
 	}
 }
+export default connect((state) => state)(BuyHistory)
