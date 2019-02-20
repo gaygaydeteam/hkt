@@ -41,7 +41,7 @@ const reducer = (state = defaultState, action) => {
     case 'UPDATE_USER_INFO':
         return Object.assign({}, state, action.userInfo);
     case 'RESET_USER_STATE':
-        return Object.assign({}, defaultState);
+        return defaultState;
     default:
         return state;
     }
