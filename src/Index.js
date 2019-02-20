@@ -37,7 +37,7 @@ module.exports = {
         getTotalDetail: 'https://www.blyl1888.com/index.php/Api/User/myDeal',
         getMyOrder: 'https://www.blyl1888.com/index.php/Api/Order/user_deal',
         getDynamicIncome: 'https://www.blyl1888.com/index.php/Api/User/myBonus',
-        getBuyHistory: 'https://www.blyl1888.com/index.php/Api/Order/BuyList',
+        getBuyHistory: 'https://www.blyl1888.com/index.php/Api/User/myDeal',
         getUserSale: 'https://www.blyl1888.com/index.php/Api/Order/user_sale',
         getTransfer: 'https://www.blyl1888.com/index.php/Api/User/transfer',
         getSaleList: 'https://www.blyl1888.com/index.php/Api/Order/saleList',
