@@ -159,6 +159,7 @@ class Home extends Component {
                     <View style={Styles.home.outBtnWrapper}>
                         <MyButton title="退出登陆" style={{container: {marginTop: 10}}} activeOpacity={.5} onPress={() => {
                             this.props.reset();
+                            global.toast.show('已退出');
                             navigation.navigate('SignIn');
                         }}/>
                     </View>
