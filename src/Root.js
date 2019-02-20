@@ -80,7 +80,7 @@ const navigateList = [
     },
     {
         title: '静态收益',
-        id: 'HangUp',
+        id: 'StaticIncome',
         icon: 'bar-chart'
     },
     {
@@ -135,7 +135,7 @@ class Home extends Component {
         });
     }
     render() {
-        const { mine_balance, frozen_money, navigation, is_real_name } = this.props
+        const { mine_balance, frozen_money, navigation, is_real_name, out_money, id, token } = this.props
         return (
             <ImageBackground source={appBg} style={Styles.backgroundImage}>
                 <ScrollView style={Styles.home.main}>
@@ -155,7 +155,7 @@ class Home extends Component {
                             <Text style={Styles.home.balanceAndCredit.text}>红利: {frozen_money}</Text>
                         </View>
                     </View>
-                    <Navigation list={navigateList} nav={navigation}/>
+                    <Navigation list={navigateList} nav={navigation} id={id} token={token} out_money={out_money}/>
                     <View style={Styles.home.outBtnWrapper}>
                         <MyButton title="退出登陆" style={{container: {marginTop: 10}}} activeOpacity={.5} onPress={() => {
                             this.props.reset();
@@ -174,9 +174,11 @@ class Info extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>资讯</Text>
-            </View>
+            <ImageBackground source={appBg} style={Styles.backgroundImage}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{color: '#fff'}}>资讯暂未开放</Text>
+                </View>
+            </ImageBackground>
         );
     }
 }
@@ -187,9 +189,11 @@ class ShoppingCenter extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>资讯</Text>
-            </View>
+            <ImageBackground source={appBg} style={Styles.backgroundImage}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{color: '#fff'}}>商城暂未开放</Text>
+                </View>
+            </ImageBackground>
         );
     }
 }
