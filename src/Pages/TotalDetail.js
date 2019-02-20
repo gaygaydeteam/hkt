@@ -53,9 +53,7 @@ class TransactionList extends Component {
   render() {
     return (
       <View style={styles.list}>
-      	<UserItem type={this.props.name} />
       	<UserItem type={this.props.number} />
-      	<UserItem type={this.props.attributes}/>
       	<UserItem type={this.props.time} />
       </View>
     );
@@ -68,20 +66,36 @@ class TotalDetail extends Component {
 	constructor (props) {
 	    super(props);
 	    this.state = {
-	    	Buy: null
+	    	Buy: null,
+	    	Sale: null
 	    }
 	}
 	componentDidMount() {
         const { id, token } = this.props;
 		let formData = new FormData();
+		let formData1 = new FormData();
 		formData.append('id', id);
 		formData.append('token', token);
+		formData.append('type', '1');
+		
+		formData1.append('id', id);
+		formData1.append('token', token);
+		formData1.append('type', '2');
 		Api.request(apiUri.getTotalDetail, 'POST', formData).then((responseJson) => {
             if(responseJson.code == 'error') {
-                global.toast.show(responseJson.message);
+            	const message = '购买' + responseJson.message;
+                global.toast.show(message);
                 return;
             }
 	        this.setState({Buy: responseJson.data});
+	    });
+	    Api.request(apiUri.getTotalDetail, 'POST', formData1).then((responseJson) => {
+            if(responseJson.code == 'error') {
+            	const message = '挂卖' + responseJson.message;
+                global.toast.show(message);
+                return;
+            }
+	        this.setState({Sale: responseJson.data});
 	    });
     }
 	render () {
@@ -90,11 +104,19 @@ class TotalDetail extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList name="id" number="数量" attributes="交易属性" time="挂单时间"/>
+							<TransactionList number="数量" time="购买时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}
-								renderItem={({item}) => <TransactionList name={item.id} number={item.money} attributes={(item.role == 1) ? '买入' : '卖出'} time={item.add_time}/>}
+								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time}/>}
+							/>
+						</View>
+						<View style={{marginBottom: 20, marginTop: 10}}>
+							<TransactionList number="数量" time="挂单时间"/>
+							<FlatList
+								keyExtractor={(item, index) => index.toString()}
+								data={this.state.Sale}
+								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time}/>}
 							/>
 						</View>
 					</ScrollView>

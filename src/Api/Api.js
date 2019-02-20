@@ -24,18 +24,4 @@ async function request(url, method, formData) {
         global.toast.show('哎呀，网络出错了');
     }
 }
-async function getSpreadLink(formData) {
-    console.log('request buy');
-    try {
-        let res = await fetch('http://www.blyl1888.com/index.php/Api/Index/getUrl', {
-            method: 'POST',
-            body: formData,
-        })
-        let resData = await res.json();
-        return resData;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 export default {request};

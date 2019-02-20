@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, View, StyleSheet, ScrollView, TextInput } from 'react-native';
-import { appBg, theme } from '../Index';
+import { ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { appBg, theme, apiUri } from '../Index';
 import { connect } from 'react-redux';
+import Api from  '../Api/Api';
 
 const styles = StyleSheet.create({
 	container: {
@@ -62,12 +63,12 @@ class PersonalInfo extends Component {
 	constructor (props) {
 	    super(props);
 	    this.state = {
-	    	userName: '',
-	    	idCard: '',
-	    	phoneNumber: '',
-	    	bankCard: '',
-	    	aPay: '',
-	    	spreadCode: ''
+	    	userName: this.props.username,
+	    	idCard: this.props.resident_id_card,
+	    	phoneNumber: this.props.phone,
+	    	bankCard: this.props.bank_card,
+	    	aPay: this.props.alipay,
+	    	spreadCode: this.props.promotion_code
 	    }
 	}
 	render () {
@@ -82,6 +83,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>姓名</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(username == ''|| username == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={username}
@@ -99,6 +101,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>身份证</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(resident_id_card == '' || resident_id_card == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={resident_id_card}
@@ -116,6 +119,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>手机号</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(phone == '' || phone == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={phone}
@@ -136,6 +140,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>银行卡号</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(bank_card == '' || bank_card == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={bank_card}
@@ -153,6 +158,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>支付宝</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(alipay == '' || alipay == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={alipay}
@@ -170,6 +176,7 @@ class PersonalInfo extends Component {
 							<View style={styles.item}>
 								<Text style={styles.text}>推广码</Text>
 								<TextInput
+								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
 								style={(promotion_code == '' || promotion_code == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
 							    defaultValue={promotion_code}
@@ -184,9 +191,24 @@ class PersonalInfo extends Component {
 							</View>
 						</View>
 						<View style={styles.btn}>
-							<View style={styles.confirmWrapper}>
+							<TouchableOpacity onPress={() => {
+								const { id, token } = this.props;
+						        let fd = new FormData();
+						        fd.append('id', id);
+						        fd.append('token', token);
+						        fd.append('name', this.state.userName);
+						        fd.append('bank_card', this.state.bankCard);
+						        fd.append('resident_id_card', this.state.idCard);
+						        fd.append('alipay', this.state.aPay);
+						        Api.request(apiUri.getRealName, 'POST', fd).then((res) => {
+						            console.log(res);
+						            global.toast.show(res.message);
+						        });
+							}} 
+							style={styles.confirmWrapper}
+							>
 	                            <Text style={styles.confirm}>确定</Text>
-	                        </View>
+	                        </TouchableOpacity>
                         </View>
 					</ScrollView>
 			    </ImageBackground>

@@ -41,5 +41,9 @@ module.exports = {
         getUserSale: 'https://www.blyl1888.com/index.php/Api/Order/user_sale',
         getTransfer: 'https://www.blyl1888.com/index.php/Api/User/transfer',
         getSaleList: 'https://www.blyl1888.com/index.php/Api/Order/saleList',
+        getOutGame: 'http://www.blyl1888.com/index.php/Api/User/out_game',
+        getDealCheck: 'https://www.blyl1888.com/index.php/Api/Order/deal_check',
+        getChangePassword: 'https://www.blyl1888.com/index.php/Api/User/changePassword',
+        getRealName: 'https://www.blyl1888.com/index.php/Api/User/real_name',
     }
 }

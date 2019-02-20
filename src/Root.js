@@ -142,12 +142,12 @@ class Home extends Component {
                     <UserProfile editable={false} style={Styles.home.userProfile}/>
                     <View style={Styles.home.balanceAndCredit.container}>
                         <View style={Styles.home.balanceAndCredit.machineBuy}>
-                            <TouchableOpacity onPress={() => {if(is_real_name == '1'){this.props.navigation.navigate('Buy')}else{Alert.alert('需要实名认证')}}}>
+                            <TouchableOpacity onPress={() => {if(is_real_name == '1'){navigation.navigate('Buy')}else{Alert.alert('需要实名认证')}}}>
                                 <Text style={Styles.home.balanceAndCredit.text}>矿机购买</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.home.balanceAndCredit.balance}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('HangUp')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('HangUp')}>
                                 <Text style={Styles.home.balanceAndCredit.text}>余额: {mine_balance}</Text>
                             </TouchableOpacity>
                         </View>
@@ -157,7 +157,10 @@ class Home extends Component {
                     </View>
                     <Navigation list={navigateList} nav={navigation}/>
                     <View style={Styles.home.outBtnWrapper}>
-                        <MyButton title="退出登陆" style={{container: {marginTop: 10}}} activeOpacity={.5} onPress={() => {}}/>
+                        <MyButton title="退出登陆" style={{container: {marginTop: 10}}} activeOpacity={.5} onPress={() => {
+                            this.props.reset();
+                            navigation.navigate('SignIn');
+                        }}/>
                     </View>
                 </ScrollView>
             </ImageBackground>
@@ -196,14 +199,20 @@ const TabNavigator = createBottomTabNavigator({
         (state)=>state,
         (dispatch) => {
             return {
-                update: (userInfo) =>{
+                update: (userInfo) => {
                     console.log('update user info');
                     dispatch({
                         type: 'UPDATE_USER_INFO',
                         userInfo,
                     })
+                },
+                reset: () => {
+                    console.log('reset user state');
+                    dispatch({
+                        type: 'RESET_USER_STATE',
+                    })
                 }
-            }
+             }
         })(Home),
     Info,
     ShoppingCenter,

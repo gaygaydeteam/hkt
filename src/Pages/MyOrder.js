@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { appBg, theme, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from '../Api/Api';
@@ -92,8 +92,16 @@ class MyOrder extends Component {
 									<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
 									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
 									<View style={styles.lastInfo}>
-										<TouchableOpacity onPress={() => {}}><Text style={styles.btn}>{(item.role == 1) ? '打出款项' : '收到款项'}</Text></TouchableOpacity>
-										<Text style={{color: '#fff'}}>进入交易中心查看</Text>
+										<TouchableOpacity onPress={() => {
+											const { id, token } = this.props;
+											let formData = new FormData();
+											formData.append('id', id);
+											formData.append('token', token);
+											formData.append('list_id', item.list_id);
+											Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
+									            Alert.alert(responseJson.message);
+										    });
+										}}><Text style={styles.btn}>{(item.role == 1) ? '打出款项' : '收到款项'}</Text></TouchableOpacity>
 									</View>
 								</View>
 							))}
