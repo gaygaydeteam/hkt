@@ -35,7 +35,7 @@ const Styles = {
     itemTitle: {
         fontSize: 16,
         color: '#fff',
-        marginTop: 10
+        marginTop: 20
     }
 }
 
@@ -86,7 +86,7 @@ export default class Navigation extends Component{
                                 this.link(item.id);
                             }}}>
                             <View style={Styles.item}>
-                                <FontAwesome name={item.icon} size={22} color="red" />
+                                <FontAwesome name={item.icon} size={26} color="#cc9933" />
                                 <Text style={Styles.itemTitle}>{item.title}</Text>
                             </View>
                         </TouchableWithoutFeedback>

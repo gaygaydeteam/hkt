@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
 
 class PersonalInfo extends Component {
     static navigationOptions = {
-        title: '个人信息',
+        title: '实名认证',
     }
 	constructor (props) {
 	    super(props);
 	    this.state = {
-	    	userName: this.props.username,
+	    	userName: this.props.real_name,
 	    	idCard: this.props.resident_id_card,
 	    	phoneNumber: this.props.phone,
 	    	bankCard: this.props.bank_card,
@@ -72,7 +72,7 @@ class PersonalInfo extends Component {
 	    }
 	}
 	render () {
-        const {username, resident_id_card, alipay, bank_card, promotion_code, phone} = this.props;
+        const {real_name, resident_id_card, alipay, bank_card, promotion_code, phone} = this.props;
         // const {username, resident_id_card, alipay, bank_card, promotion_code} = {username: 'zzz', resident_id_card: '23er2f', alipay: '1111', bank_card: '2222', promotion_code: '43324'};
 		return (
 			<View style={styles.container}>
@@ -85,15 +85,15 @@ class PersonalInfo extends Component {
 								<TextInput
 								placeholderTextColor={theme.lightGray}
 								autoCapitalize = 'none'
-								style={(username == ''|| username == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={username}
+								style={(real_name == ''|| real_name == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
+							    defaultValue={real_name}
 							    onChangeText={(value) => {
 							      this.setState({
 							        userName: value,
 							      });
 							    }}
 							    placeholder="请输入名字"
-							    editable={(username == ''|| username == null) ? true : false}
+							    editable={(real_name == ''|| real_name == null) ? true : false}
 								/>
 							</View>
 						</View>
@@ -110,7 +110,7 @@ class PersonalInfo extends Component {
 							        idCard: value,
 							      });
 							    }}
-							    placeholder="请输身份证"
+							    placeholder="请输入身份证"
 							    editable={(resident_id_card == '' || resident_id_card == null) ? true : false}
 								/>
 							</View>
@@ -149,7 +149,7 @@ class PersonalInfo extends Component {
 							        bankCard: value,
 							      });
 							    }}
-							    placeholder="请输入银行卡号"
+							    placeholder="银行卡号仅限四大行"
 							    editable={(bank_card == '' || bank_card == null) ? true : false}
 								/>
 							</View>
@@ -167,7 +167,7 @@ class PersonalInfo extends Component {
 							        aPay: value,
 							      });
 							    }}
-							    placeholder="请输入支付宝号"
+							    placeholder="请输入支付宝账号"
 							    editable={(alipay == '' || alipay == null) ? true : false}
 								/>
 							</View>
@@ -200,6 +200,7 @@ class PersonalInfo extends Component {
 						        fd.append('bank_card', this.state.bankCard);
 						        fd.append('resident_id_card', this.state.idCard);
 						        fd.append('alipay', this.state.aPay);
+						        console.log(fd);
 						        Api.request(apiUri.getRealName, 'POST', fd).then((res) => {
 						            console.log(res);
 						            global.toast.show(res.message);

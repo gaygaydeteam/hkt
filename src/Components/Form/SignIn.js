@@ -78,8 +78,8 @@ class SignIn extends React.Component {
         return (
             <ImageBackground source={appBg} style={Styles.background}>
                 <View style={Styles.title.container}>
-                    <Text style={Styles.title.cnName}>恒泰</Text>
-                    <Text style={Styles.title.enName}>HENGTAI</Text>
+                    <Text style={Styles.title.cnName}>HKT</Text>
+                    <Text style={Styles.title.enName}></Text>
                 </View>
                 <View style={Styles.form}>
                     <TextInput

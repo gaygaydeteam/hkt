@@ -69,7 +69,7 @@ class Maintain extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<View style={styles.content}>
 						<View style={styles.inputContent}>
-							<Text style={styles.title}>维护币数量(剩余: {maintain_currency})</Text>
+							<Text style={styles.title}>转移维护币(剩余: {maintain_currency})</Text>
 							<TextInput
 								keyboardType="numeric"
 								placeholder="请输入数量"
@@ -80,7 +80,7 @@ class Maintain extends Component {
 						        }}
 						        value={this.state.number}
 						    />
-						    <Text style={styles.title}>ID</Text>
+						    <Text style={styles.title}>接收维护币的用户ID</Text>
 							<TextInput
 								keyboardType="numeric"
 								placeholder="请输入ID"

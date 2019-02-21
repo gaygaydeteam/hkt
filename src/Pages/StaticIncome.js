@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, View, StyleSheet, TextInput, Alert } from 'react-native';
-import { appBg, theme } from '../Index';
+import { ImageBackground, Text, View, StyleSheet, TextInput, Alert, Image } from 'react-native';
+import { appBg, theme, miner } from '../Index';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -67,6 +67,7 @@ class StaticIncome extends Component {
 							<Text style={[styles.text, styles.specialText]}>今日收益</Text>
 							<Text style={[styles.text, styles.specialText]}>{currentGet}</Text>
 						</View>
+						<Image source={miner}/>
 					</View>
 			    </ImageBackground>
 			</View>

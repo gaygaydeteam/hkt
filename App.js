@@ -26,6 +26,7 @@ const defaultState = {
 }
 const reducer = (state = defaultState, action) => {
     console.log('action type:' + action.type);
+    console.log(state);
     switch(action.type) {
     case 'LOGIN_SUCCESS':
         return Object.assign({}, state, {
