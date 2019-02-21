@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 class HangUp extends Component {
     static navigationOptions = {
-        title: '卖出',
+        title: '矿金挂卖',
     }
 	constructor (props) {
 	    super(props);
@@ -67,12 +67,11 @@ class HangUp extends Component {
 		return (
 			<View style={styles.container}>
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<Text style={styles.title}>矿金挂卖</Text>
 					<View style={styles.content}>
 						<View style={styles.inputContent}>
 							<TextInput
 								keyboardType="numeric"
-								placeholder="请输入金额(元)"
+								placeholder="请输入矿金数量"
 								style={styles.inputStyle}
 						        onChangeText={(money) => {
 						        	const newText = money.replace(/[^\d]+/, '');

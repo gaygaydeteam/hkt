@@ -94,43 +94,40 @@ class Team extends Component {
 			<View style={styles.container}>
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
-						<Text style={styles.text}>直接推广</Text>
-						<UserList id="ID" level="推广级" standard="矿机规格" superior="推广码" />
+						<Text style={styles.text}>直推</Text>
+						<UserList id="ID" standard="矿机规格" superior="推广码" />
 						<FlatList
                             data={this.state.Team1}
                             keyExtractor={this.keyExtractor}
                             renderItem={({item}) =>
                                 <UserList
                                     id={item.id}
-                                    level='直推'
                                     standard={item.machine_specifications}
                                     superior={item.promotion_code}
                                 />
                             }
 						/>
-						<Text style={styles.text}>间接推广</Text>
-						<UserList id="ID" level="推广级" standard="矿机规格" superior="推广码" />
+						<Text style={styles.text}>间推</Text>
+						<UserList id="ID" standard="矿机规格" superior="推广码" />
 						<FlatList
                             data={this.state.Team2}
                             keyExtractor={this.keyExtractor}
                             renderItem={({item}) =>
                                 <UserList
                                     id={item.id}
-                                    level='间推'
                                     standard={item.machine_specifications}
                                     superior={item.promotion_code}
                                 />
                             }
 						/>
-						<Text style={styles.text}>三级推广</Text>
-						<UserList id="ID" level="推广级" standard="矿机规格" superior="推广码" />
+						<Text style={styles.text}>二级间推</Text>
+						<UserList id="ID" standard="矿机规格" superior="推广码" />
 						<FlatList
                             data={this.state.Team3}
                             keyExtractor={this.keyExtractor}
                             renderItem={({item}) =>
                                 <UserList
                                     id={item.id}
-                                    level={item.level}
                                     standard={item.machine_specifications}
                                     superior={item.promotion_code}
                                 />

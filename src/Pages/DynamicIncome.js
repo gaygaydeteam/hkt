@@ -89,7 +89,7 @@ class DynamicIncome extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList name="id" number="收益" time="时间"/>
+							<TransactionList name="ID" number="返佣额" time="时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}

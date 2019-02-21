@@ -1,6 +1,7 @@
 module.exports = {
     defaultAvatar: require('../assets/hengtai/avatar.png'),
     appBg: require('../assets/hengtai/bg.png'),
+    miner: require('../assets/hengtai/miner1.gif'),
     theme: {
         appTopHeight: 50,
         shitYellow: '#cc9933',

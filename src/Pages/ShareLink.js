@@ -53,7 +53,8 @@ class ShareLink extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<View style={styles.content}>
 						<View style={styles.outerContent}>
-							<Text style={{color: '#fff', fontSize: 16,width: '60%'}}>{link}</Text>
+							<Text style={{color: '#fff', fontSize: 16,width: '60%',textAlign: 'center',marginBottom:15}}>复制该链接分享好友即可注册下载HKT</Text>
+							<Text style={{color: 'gold', fontSize: 16,width: '70%'}}>{link}</Text>
 						    <MyButton 
 						    title="复制链接"
 				            onPress={() => {

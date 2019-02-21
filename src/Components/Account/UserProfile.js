@@ -17,8 +17,8 @@ const Styles = {
         alignItems: 'center',
     },
     avatar: {
-        width: 32,
-		height: 32,
+        width: 42,
+		height: 42,
 		borderRadius: 16,
     },
     name: {

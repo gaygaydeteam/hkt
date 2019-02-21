@@ -91,6 +91,7 @@ class MyOrder extends Component {
 									<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
 									<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
 									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
+									<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
 									<View style={styles.lastInfo}>
 										<TouchableOpacity onPress={() => {
 											const { id, token } = this.props;

@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
       	justifyContent: "center",
 		alignItems: "center",
+	},
+	title: {
+		textAlign: 'center',
+		color: 'white',
+		fontSize: 16,
+		marginBottom: 15
 	}
 });
 class UserItem extends Component {
@@ -104,6 +110,7 @@ class TotalDetail extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
+							<Text style={styles.title}>矿机买入记录</Text>
 							<TransactionList number="数量" time="购买时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
@@ -112,6 +119,7 @@ class TotalDetail extends Component {
 							/>
 						</View>
 						<View style={{marginBottom: 20, marginTop: 10}}>
+							<Text style={styles.title}>矿金挂单记录</Text>
 							<TransactionList number="数量" time="挂单时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
