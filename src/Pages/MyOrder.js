@@ -137,6 +137,8 @@ class MyOrder extends Component {
                                                 let base64uri = 'data:' + image.mime + ';base64,' + image.data;
                                                 console.log(base64uri);
                                                 this.uploadImage(id, token, base64uri);
+                                            }).catch(error => {
+                                                console.log(error);
                                             });
 
                                         }}>
