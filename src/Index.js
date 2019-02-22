@@ -46,5 +46,6 @@ module.exports = {
         getDealCheck: 'https://www.blyl1888.com/index.php/Api/Order/deal_check',
         getChangePassword: 'https://www.blyl1888.com/index.php/Api/User/changePassword',
         getRealName: 'https://www.blyl1888.com/index.php/Api/User/real_name',
+        uploadImage: 'http://www.blyl1888.com/index.php/Api/Index/upload_image',
     }
 }

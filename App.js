@@ -6,6 +6,7 @@ import { createStackNavigator, createSwitchNavigator, createAppContainer } from 
 import Root from './src/Root';
 import SignIn from './src/Components/Form/SignIn';
 import Toast from './src/Components/Modal/Toast';
+import ImageUpload from './src/Components/Form/ImageUpload';
 
 import Buy from './src/Pages/Buy';
 import HangUp from './src/Pages/HangUp';
@@ -87,9 +88,11 @@ const Navigator = createStackNavigator({
 const RootContainer = createAppContainer(createSwitchNavigator({
     SignIn,
     Navigator,
+    ImageUpload,
 },{
     initialRouteName: 'SignIn',
     // initialRouteName: 'Navigator'
+    // initialRouteName: 'ImageUpload'
 }));
 export default class App extends Component {
   onRef = (ref) => global.toast = ref
