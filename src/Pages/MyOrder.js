@@ -3,7 +3,7 @@ import { Alert, ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, 
 import { appBg, theme, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from '../Api/Api';
-
+import ImagePicker from 'react-native-image-crop-picker';
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
@@ -45,12 +45,16 @@ const styles = StyleSheet.create({
 	},
 	lastInfo: {
 		flex: 1,
-		flexDirection: 'row',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
 		justifyContent: 'space-between',
 	},
-	btn: {
+	btnRemit: {
 		color: '#05a5d1'
-	}
+    },
+    btnUpload: {
+        color: '#05a5d1'
+    }
 });
 const orderInfo = {
 	name: '李四',
@@ -63,10 +67,13 @@ class MyOrder extends Component {
 	constructor (props) {
 	    super(props);
 	    this.state = {
-	    	Info: []
+            Info: [],
+            uploadSuccess: false,
+            btnUploadText: '上传凭证',
+            imageRemoteUrl: '',
 	    };
 	}
-	componentDidMount() {
+	componentWillMount() {
         const { id, token } = this.props;
 		let formData = new FormData();
 		formData.append('id', id);
@@ -79,7 +86,25 @@ class MyOrder extends Component {
 	        this.setState({Info: responseJson.data});
 	    });
     }
+    uploadImage = (id, token, url) => {
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('token', token);
+        formData.append('image', url);
+        Api.request(apiUri.uploadImage, 'POST', formData).then((res) => {
+            if(res.code == 'success') {
+                this.setState({
+                    btnUploadText: '已上传',
+                    uploadSuccess: true,
+                    imageRemoteUrl: res.data.image_url,
+                })
+            }
+            Alert.alert(res.message);
+        });
+    }
 	render () {
+        const { id, token } = this.props;
+        const { btnUploadText, uploadSuccess, imageRemoteUrl } = this.state;
 		return (
 			<View style={styles.container}>
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
@@ -93,16 +118,49 @@ class MyOrder extends Component {
 									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
 									<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
 									<View style={styles.lastInfo}>
+                                        <TouchableOpacity onPress={()=> {
+                                            ImagePicker.openPicker({
+                                                width: 800,
+                                                height: 450,
+                                                cropping: true,
+                                                writeTempFile: false,
+                                                compressImageQuality: 1,
+                                                includeBase64: true,
+                                                cropperChooseText: '选择',
+                                                cropperCancelText: '取消',
+                                            }).then(image => {
+                                                console.log(image);
+                                                if(image.size > 5000000) {
+                                                    Alert.alert('图片不能大于5M');
+                                                    return;
+                                                }
+                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
+                                                console.log(base64uri);
+                                                this.uploadImage(id, token, base64uri);
+                                            }).catch(error => {
+                                                console.log(error);
+                                            });
+
+                                        }}>
+                                            <Text style={styles.btnUpload}>{btnUploadText}</Text>
+                                        </TouchableOpacity>
 										<TouchableOpacity onPress={() => {
-											const { id, token } = this.props;
+                                            if(!uploadSuccess) {
+                                                Alert.alert('请先上传凭证');
+                                                return;
+                                            }
 											let formData = new FormData();
 											formData.append('id', id);
 											formData.append('token', token);
-											formData.append('list_id', item.list_id);
+                                            formData.append('list_id', item.list_id);
+                                            formData.append('image_url', imageRemoteUrl)
 											Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
 									            Alert.alert(responseJson.message);
 										    });
-										}}><Text style={styles.btn}>{(item.role == 1) ? '打出款项' : '收到款项'}</Text></TouchableOpacity>
+										}}>
+
+                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '打出款项' : '收到款项'}</Text>
+                                        </TouchableOpacity>
 									</View>
 								</View>
 							))}
