@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, View, StyleSheet, TextInput, Alert } from 'react-native';
+import { Keyboard, ImageBackground, Text, View, StyleSheet, TextInput, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { appBg, apiUri } from '../Index';
 import Api from '../Api/Api';
 import { connect } from 'react-redux';
@@ -24,11 +24,10 @@ const styles = StyleSheet.create({
 		marginBottom: 15
 	},
 	content: {
-		position: 'absolute',
-		top: 0,
-		bottom: 0,
-		left: 0,
-		right: 0,
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: 'row'
 	},
 	inputStyle: {
 		height: 40,
@@ -48,6 +47,9 @@ const styles = StyleSheet.create({
       	justifyContent: "center",
 		alignItems: "center",
 		height: '100%'
+	},
+	scroll: {
+
 	}
 });
 
@@ -62,52 +64,79 @@ class Maintain extends Component {
 	    	receiveId: ''
 	    };
 	}
+	// 监听键盘弹出与收回
+	componentDidMount() {
+	  this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardDidShow);
+	  this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardDidHide);
+	}
+
+	//注销监听
+	componentWillUnmount () {
+	  this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
+	  this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
+	}
+
+	//键盘弹起后执行
+	keyboardDidShow = () =>  {
+	  this._scrollView.scrollTo({x:0, y:100, animated:true});
+	}
+
+	//键盘收起后执行
+	keyboardDidHide = () => {
+	  this._scrollView.scrollTo({x:0, y:0, animated:true});
+	}
 	render () {
 		const { id, token, maintain_currency } = this.props;
 		return (
 			<View style={styles.container}>
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<View style={styles.content}>
-						<View style={styles.inputContent}>
-							<Text style={styles.title}>转移维护币(剩余: {maintain_currency})</Text>
-							<TextInput
-								keyboardType="numeric"
-								placeholder="请输入数量"
-								style={[styles.inputStyle, {marginBottom: 20}]}
-						        onChangeText={(number) => {
-						        	const newMoney = number.replace(/[^\d]+/, '');
-						        	this.setState({number: newMoney})
-						        }}
-						        value={this.state.number}
-						    />
-						    <Text style={styles.title}>接收维护币的用户ID</Text>
-							<TextInput
-								keyboardType="numeric"
-								placeholder="请输入ID"
-								style={styles.inputStyle}
-						        onChangeText={(number) => {
-						        	const newText = number.replace(/[^\d]+/, '');
-						        	this.setState({receiveId: newText})
-						        }}
-						        value={this.state.receiveId}
-						    />
-
-						    <MyButton
-						    title="确定"
-						    style={{container: {marginTop: 20}}}
-				            onPress={() => {
-				                let formData = new FormData();
-								formData.append('send_id', id);
-								formData.append('token', token);
-								formData.append('number', this.state.number);
-								formData.append('receive_id', this.state.receiveId);
-                                console.log(formData);
-                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
-							        Alert.alert(responseJson.message);
-							    })
-				            }}
-				             />
-						</View>
+						<ScrollView
+						ref={component => this._scrollView=component}
+						scrollEnabled={false}
+                        keyboardShouldPersistTaps='always'
+                        contentContainerStyle={{flex:1}}
+                        >
+							<View style={styles.inputContent}>
+								<Text style={styles.title}>转移维护币(剩余: {maintain_currency})</Text>
+								<TextInput
+									keyboardType="numeric"
+									placeholder="请输入数量"
+									style={[styles.inputStyle, {marginBottom: 20}]}
+							        onChangeText={(number) => {
+							        	const newMoney = number.replace(/[^\d]+/, '');
+							        	this.setState({number: newMoney})
+							        }}
+							        value={this.state.number}
+							    />
+							    <Text style={styles.title}>接收维护币的用户ID</Text>
+								<TextInput
+									keyboardType="numeric"
+									placeholder="请输入ID"
+									style={styles.inputStyle}
+							        onChangeText={(number) => {
+							        	const newText = number.replace(/[^\d]+/, '');
+							        	this.setState({receiveId: newText})
+							        }}
+							        value={this.state.receiveId}
+							    />
+							    <MyButton
+							    title="确定"
+							    style={{container: {marginTop: 20}}}
+					            onPress={() => {
+					                let formData = new FormData();
+									formData.append('send_id', id);
+									formData.append('token', token);
+									formData.append('number', this.state.number);
+									formData.append('receive_id', this.state.receiveId);
+	                                console.log(formData);
+	                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
+								        Alert.alert(responseJson.message);
+								    })
+					            }}
+					             />
+							</View>
+						</ScrollView>
 					</View>
 			    </ImageBackground>
 			</View>
