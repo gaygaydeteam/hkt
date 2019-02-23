@@ -202,7 +202,9 @@ class PersonalInfo extends Component {
 						        fd.append('alipay', this.state.aPay);
 						        console.log(fd);
 						        Api.request(apiUri.getRealName, 'POST', fd).then((res) => {
-						            console.log(res);
+						        	if(res.code == 'success') {
+						        		this.props.update(res.data);
+						        	}
 						            global.toast.show(res.message);
 						        });
 							}} 
@@ -217,9 +219,20 @@ class PersonalInfo extends Component {
 		)
 	}
 }
+
 export default connect(
     (state) => {
         console.log(state);
         return state;
+    },(dispatch) => {
+        return {
+            update: (userInfo) => {
+                console.log('update user info');
+                dispatch({
+                    type: 'UPDATE_USER_INFO',
+                    userInfo,
+                })
+            }
+        }
     }
 )(PersonalInfo)

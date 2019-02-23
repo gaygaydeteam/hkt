@@ -88,6 +88,11 @@ class HangUp extends Component {
 								formData.append('token', token);
                                 formData.append('mine_balance', this.state.money);
                                 Api.request(apiUri.getUserSale, 'POST', formData).then((responseJson) => {
+                                	console.log(responseJson);
+                                	if(responseJson.code == 'success') {
+                                		let number = (parseInt(this.props.mine_balance)*100 - this.state.money*100)/100;
+						        		this.props.update({mine_balance: number});
+						        	}
 							        Alert.alert(responseJson.message);
 							    });
 				            }}
@@ -99,4 +104,18 @@ class HangUp extends Component {
 		)
 	}
 }
-export default connect((state)=>{return {id: state.id, token: state.token}})(HangUp)
+export default connect(
+	(state)=>{
+		return state;	
+	},(dispatch) => {
+        return {
+            update: (userInfo) => {
+                console.log('update user info');
+                dispatch({
+                    type: 'UPDATE_USER_INFO',
+                    userInfo,
+                })
+            }
+        }
+    }
+)(HangUp)
