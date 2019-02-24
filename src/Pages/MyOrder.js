@@ -113,16 +113,17 @@ class MyOrder extends Component {
 							{this.state.Info.map((item, index) => (
 								<View style={styles.infoWrapper} key={index}>
 									<Text style={styles.text}>已出单</Text>
-									<Text style={styles.text}>{(item.role == 2) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 2) ? item.buy_name : item.sale_name}</Text>
-									<Text style={styles.text}>支付宝: {(item.role == 2) ? item.buy_alipay : item.sale_alipay}</Text>
-									<Text style={styles.text}>银行卡: {(item.role == 2) ? item.buy_bank_card : item.sale_bank_card}</Text>
-									<Text style={styles.text}>联系方式: {(item.role == 2) ? item.buy_phone : item.sale_phone}</Text>
+									<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
+									<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
+									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
+									<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
+									<Text style={styles.text}>HKT数量: {(item.role == 1) ? item.money : item.money}</Text>
 									<View style={styles.lastInfo}>
-										{(item.role == 2) ? 
-											<TouchableOpacity onPress={()=> {
+										
+	                                        <TouchableOpacity onPress={()=> {
 	                                            ImagePicker.openPicker({
-	                                                width: 800,
-	                                                height: 450,
+	                                                width: 450,
+	                                                height: 800,
 	                                                cropping: true,
 	                                                writeTempFile: false,
 	                                                compressImageQuality: 1,
@@ -141,28 +142,26 @@ class MyOrder extends Component {
 	                                            }).catch(error => {
 	                                                console.log(error);
 	                                            });
-
 	                                        }}>
-	                                            <Text style={styles.btnUpload}>{btnUploadText}</Text>
+	                                    
+	                                            <Text style={styles.btnUpload}>{(item.role == 1) ? '' : btnUploadText }</Text>
 	                                        </TouchableOpacity>
-	                                        : ''
-										}
-										<TouchableOpacity onPress={() => {
-                                            if(!uploadSuccess) {
-                                                Alert.alert('请先上传凭证');
-                                                return;
-                                            }
-											let formData = new FormData();
-											formData.append('id', id);
-											formData.append('token', token);
-                                            formData.append('list_id', item.list_id);
-                                            formData.append('image_url', imageRemoteUrl)
-											Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
-									            Alert.alert(responseJson.message);
-										    });
-										}}>
 
-                                            <Text style={styles.btnRemit}>{(item.role == 2) ? '打出款项' : '收到款项'}</Text>
+											<TouchableOpacity onPress={() => {
+	                                            if(!uploadSuccess && item.role == 2) {
+	                                                Alert.alert('请先上传凭证');
+	                                                return;
+	                                            }
+												let formData = new FormData();
+												formData.append('id', id);
+												formData.append('token', token);
+	                                            formData.append('list_id', item.list_id);
+	                                            formData.append('image_url', imageRemoteUrl)
+												Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
+										            Alert.alert(responseJson.message);
+											    });
+											}}>
+                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '收到款项' : '打出款项'}</Text>
                                         </TouchableOpacity>
 									</View>
 								</View>

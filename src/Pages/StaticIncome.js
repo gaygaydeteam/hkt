@@ -64,7 +64,7 @@ class StaticIncome extends Component {
 							<Text style={styles.text}>总收益: {frozen_money}</Text>
 						</View>
 						<View style={styles.inputContent}>
-							<Text style={[styles.text, styles.specialText]}>今日收益</Text>
+							<Text style={[styles.text, styles.specialText]}>每日收益</Text>
 							<Text style={[styles.text, styles.specialText]}>{currentGet}</Text>
 						</View>
 						<Image source={miner}/>
