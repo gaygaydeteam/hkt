@@ -113,37 +113,40 @@ class MyOrder extends Component {
 							{this.state.Info.map((item, index) => (
 								<View style={styles.infoWrapper} key={index}>
 									<Text style={styles.text}>已出单</Text>
-									<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
-									<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
-									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
-									<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
+									<Text style={styles.text}>{(item.role == 2) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 2) ? item.buy_name : item.sale_name}</Text>
+									<Text style={styles.text}>支付宝: {(item.role == 2) ? item.buy_alipay : item.sale_alipay}</Text>
+									<Text style={styles.text}>银行卡: {(item.role == 2) ? item.buy_bank_card : item.sale_bank_card}</Text>
+									<Text style={styles.text}>联系方式: {(item.role == 2) ? item.buy_phone : item.sale_phone}</Text>
 									<View style={styles.lastInfo}>
-                                        <TouchableOpacity onPress={()=> {
-                                            ImagePicker.openPicker({
-                                                width: 800,
-                                                height: 450,
-                                                cropping: true,
-                                                writeTempFile: false,
-                                                compressImageQuality: 1,
-                                                includeBase64: true,
-                                                cropperChooseText: '选择',
-                                                cropperCancelText: '取消',
-                                            }).then(image => {
-                                                console.log(image);
-                                                if(image.size > 5000000) {
-                                                    Alert.alert('图片不能大于5M');
-                                                    return;
-                                                }
-                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
-                                                console.log(base64uri);
-                                                this.uploadImage(id, token, base64uri);
-                                            }).catch(error => {
-                                                console.log(error);
-                                            });
+										{(item.role == 2) ? 
+											<TouchableOpacity onPress={()=> {
+	                                            ImagePicker.openPicker({
+	                                                width: 800,
+	                                                height: 450,
+	                                                cropping: true,
+	                                                writeTempFile: false,
+	                                                compressImageQuality: 1,
+	                                                includeBase64: true,
+	                                                cropperChooseText: '选择',
+	                                                cropperCancelText: '取消',
+	                                            }).then(image => {
+	                                                console.log(image);
+	                                                if(image.size > 5000000) {
+	                                                    Alert.alert('图片不能大于5M');
+	                                                    return;
+	                                                }
+	                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
+	                                                console.log(base64uri);
+	                                                this.uploadImage(id, token, base64uri);
+	                                            }).catch(error => {
+	                                                console.log(error);
+	                                            });
 
-                                        }}>
-                                            <Text style={styles.btnUpload}>{btnUploadText}</Text>
-                                        </TouchableOpacity>
+	                                        }}>
+	                                            <Text style={styles.btnUpload}>{btnUploadText}</Text>
+	                                        </TouchableOpacity>
+	                                        : ''
+										}
 										<TouchableOpacity onPress={() => {
                                             if(!uploadSuccess) {
                                                 Alert.alert('请先上传凭证');
@@ -159,7 +162,7 @@ class MyOrder extends Component {
 										    });
 										}}>
 
-                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '打出款项' : '收到款项'}</Text>
+                                            <Text style={styles.btnRemit}>{(item.role == 2) ? '打出款项' : '收到款项'}</Text>
                                         </TouchableOpacity>
 									</View>
 								</View>
