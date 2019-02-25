@@ -213,7 +213,7 @@ class Home extends Component {
                         </View>
                         <View style={Styles.home.balanceAndCredit.balance}>
                             <TouchableOpacity onPress={() => navigation.navigate('HangUp')}>
-                                <Text style={Styles.home.balanceAndCredit.text}>可交易HKT: {mine_balance}</Text>
+                                <Text style={Styles.home.balanceAndCredit.text}>HKT: {mine_balance}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.home.balanceAndCredit.credit}>
