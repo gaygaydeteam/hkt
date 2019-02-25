@@ -62,7 +62,7 @@ const orderInfo = {
 }
 class MyOrder extends Component {
 	static navigationOptions = {
-        title: '当前交易',
+        title: '当前状态',
     }
 	constructor (props) {
 	    super(props);

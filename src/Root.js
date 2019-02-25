@@ -138,7 +138,7 @@ const business = [
 ]
 const navigateList = [
     {
-        title: '购买记录',
+        title: '矿机记录',
         id: 'BuyHistory',
         icon: 'history'
     },
@@ -173,7 +173,7 @@ const navigateList = [
         icon: 'wrench'
     },
     {
-        title: '我的交易',
+        title: '我的状态',
         id: 'MyOrder',
         icon: 'exchange'
     },
@@ -208,7 +208,7 @@ class Home extends Component {
                     <View style={Styles.home.balanceAndCredit.container}>
                         <View style={Styles.home.balanceAndCredit.machineBuy}>
                             <TouchableOpacity onPress={() => {if(is_real_name == '1'){navigation.navigate('Buy')}else{Alert.alert('您的身份信息尚未完善，请前往我的页面完善个人信息，完成实名认证审核')}}}>
-                                <Text style={Styles.home.balanceAndCredit.text}>矿机购买</Text>
+                                <Text style={Styles.home.balanceAndCredit.text}>获得矿机</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.home.balanceAndCredit.balance}>
