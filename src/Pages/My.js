@@ -94,7 +94,7 @@ export default class My extends Component {
                     <ScrollView>
                         <List name="实名认证" icon="vcard-o" id="PersonalInfo" nav={navigation}/>
                         <List name="修改密码" icon="cart-plus" id="ChangePassword" nav={navigation}/>
-                        <List name="收获地址" icon="tags" nav={navigation}/>
+                        <List name="收货地址" icon="tags" nav={navigation}/>
                     </ScrollView>
 				</ImageBackground>
 			</View>
