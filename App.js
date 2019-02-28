@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native';
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import Root from './src/Root';
 import SignIn from './src/Components/Form/SignIn';
+import RetrievePsw from './src/Components/Form/RetrievePsw';
 import Toast from './src/Components/Modal/Toast';
 
 import Buy from './src/Pages/Buy';
@@ -20,6 +21,7 @@ import ShareLink from './src/Pages/ShareLink';
 import Transaction from './src/Pages/Transaction';
 import ChangePassword from './src/Pages/ChangePassword';
 import StaticIncome from './src/Pages/StaticIncome';
+import BuyDetail from './src/Pages/BuyDetail';
 const defaultState = {
     isLogin: false,
     username: '未登录',
@@ -63,7 +65,8 @@ const Navigator = createStackNavigator({
     DynamicIncome,
     ShareLink,
     ChangePassword,
-    StaticIncome
+    StaticIncome,
+    BuyDetail
 },{
     defaultNavigationOptions: ({ navigation })=> {
         const { routeName } = navigation.state;
@@ -84,11 +87,34 @@ const Navigator = createStackNavigator({
     },
     initialRouteName: 'Root',
 });
-const RootContainer = createAppContainer(createSwitchNavigator({
+const Navigator1 = createStackNavigator({
     SignIn,
+    RetrievePsw,
+},{
+    defaultNavigationOptions: ({ navigation })=> {
+        const { routeName } = navigation.state;
+        if(routeName == 'SignIn') {
+            return {
+                header: null,
+                headerBackTitle: null,
+            }
+        }
+        else {
+            return {
+                headerStyle: {
+                    backgroundColor: 'black',
+                },
+                headerTintColor: 'white',
+            }
+        }
+    },
+    initialRouteName: 'SignIn',
+});
+const RootContainer = createAppContainer(createSwitchNavigator({
+    Navigator1,
     Navigator,
 },{
-    initialRouteName: 'SignIn',
+    initialRouteName: 'Navigator1',
     // initialRouteName: 'Navigator'
 }));
 export default class App extends Component {

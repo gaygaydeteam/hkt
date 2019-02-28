@@ -35,7 +35,7 @@ module.exports = {
         userBuy: 'https://www.blyl1888.com/index.php/Api/Order/user_buy',
         getSpreadUri: 'https://www.blyl1888.com/index.php/Api/Index/getUrl',
         getUserFamily: 'https://www.blyl1888.com/index.php/Api/User/user_family',
-        getTotalDetail: 'https://www.blyl1888.com/index.php/Api/User/myDeal',
+        getTotalDetail: 'https://www.blyl1888.com/index.php/Api/Order/traceList',
         getMyOrder: 'https://www.blyl1888.com/index.php/Api/Order/user_deal',
         getDynamicIncome: 'https://www.blyl1888.com/index.php/Api/User/myBonus',
         getBuyHistory: 'https://www.blyl1888.com/index.php/Api/User/myDeal',
@@ -46,6 +46,6 @@ module.exports = {
         getDealCheck: 'https://www.blyl1888.com/index.php/Api/Order/deal_check',
         getChangePassword: 'https://www.blyl1888.com/index.php/Api/User/changePassword',
         getRealName: 'https://www.blyl1888.com/index.php/Api/User/real_name',
-        uploadImage: 'https://www.blyl1888.com/index.php/Api/Index/upload_image',
+        getMessage: 'https://www.blyl1888.com/index.php/Api/User/sendcode?phone=',
     }
 }
