@@ -102,7 +102,7 @@ class TotalDetail extends Component {
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Total}
-								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time} remark='a'/>}
+								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time} remark={item.remark}/>}
 							/>
 						</View>
 					</ScrollView>
