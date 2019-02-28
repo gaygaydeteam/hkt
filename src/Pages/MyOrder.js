@@ -112,58 +112,72 @@ class MyOrder extends Component {
 						<View style={styles.list}>
 							{this.state.Info.map((item, index) => (
 								<View style={styles.infoWrapper} key={index}>
-									<Text style={styles.text}>已出单</Text>
-									<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
-									<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
-									<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
-									<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
-									<Text style={styles.text}>HKT数量: {(item.role == 1) ? item.money : item.money}</Text>
-									<View style={styles.lastInfo}>
-										
-	                                        <TouchableOpacity onPress={()=> {
-	                                            ImagePicker.openPicker({
-	                                                width: 450,
-	                                                height: 800,
-	                                                cropping: true,
-	                                                writeTempFile: false,
-	                                                compressImageQuality: 1,
-	                                                includeBase64: true,
-	                                                cropperChooseText: '选择',
-	                                                cropperCancelText: '取消',
-	                                            }).then(image => {
-	                                                console.log(image);
-	                                                if(image.size > 5000000) {
-	                                                    Alert.alert('图片不能大于5M');
-	                                                    return;
-	                                                }
-	                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
-	                                                console.log(base64uri);
-	                                                this.uploadImage(id, token, base64uri);
-	                                            }).catch(error => {
-	                                                console.log(error);
-	                                            });
-	                                        }}>
-	                                    
-	                                            <Text style={styles.btnUpload}>{(item.role == 1) ? '' : btnUploadText }</Text>
-	                                        </TouchableOpacity>
+									{(item.role == '') ? (
+										<Text style={styles.text}>订单匹配中</Text>
+										<Text style={styles.text}>订单时间: {item.add_time}</Text>
+										<Text style={styles.text}>订单金额: {item.money}</Text>
+									) : (
+										<Text style={styles.text}>已出单</Text>
+										<Text style={styles.text}>订单时间: {item.add_time}</Text>
+										{(item.role == 'buyer') ? (
+											(item.buy_name == '') ? null : (
+												<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
+											)
+										) : (
+											(item.sale_name == '') ? null : (
+												<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
+											)
+										)}
+										<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
+										<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
+										<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
+										<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
+										<Text style={styles.text}>HKT数量: {(item.role == 1) ? item.money : item.money}</Text>
+										<View style={styles.lastInfo}>
+		                                        <TouchableOpacity onPress={()=> {
+		                                            ImagePicker.openPicker({
+		                                                width: 450,
+		                                                height: 800,
+		                                                cropping: true,
+		                                                writeTempFile: false,
+		                                                compressImageQuality: 1,
+		                                                includeBase64: true,
+		                                                cropperChooseText: '选择',
+		                                                cropperCancelText: '取消',
+		                                            }).then(image => {
+		                                                console.log(image);
+		                                                if(image.size > 5000000) {
+		                                                    Alert.alert('图片不能大于5M');
+		                                                    return;
+		                                                }
+		                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
+		                                                console.log(base64uri);
+		                                                this.uploadImage(id, token, base64uri);
+		                                            }).catch(error => {
+		                                                console.log(error);
+		                                            });
+		                                        }}>
+		                                            <Text style={styles.btnUpload}>{(item.role == 1) ? '' : btnUploadText }</Text>
+		                                        </TouchableOpacity>
 
-											<TouchableOpacity onPress={() => {
-	                                            if(!uploadSuccess && item.role == 2) {
-	                                                Alert.alert('请先上传凭证');
-	                                                return;
-	                                            }
-												let formData = new FormData();
-												formData.append('id', id);
-												formData.append('token', token);
-	                                            formData.append('list_id', item.list_id);
-	                                            formData.append('image_url', imageRemoteUrl)
-												Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
-										            Alert.alert(responseJson.message);
-											    });
-											}}>
-                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '收到款项' : '打出款项'}</Text>
-                                        </TouchableOpacity>
-									</View>
+												<TouchableOpacity onPress={() => {
+		                                            if(!uploadSuccess && item.role == 2) {
+		                                                Alert.alert('请先上传凭证');
+		                                                return;
+		                                            }
+													let formData = new FormData();
+													formData.append('id', id);
+													formData.append('token', token);
+		                                            formData.append('list_id', item.list_id);
+		                                            formData.append('image_url', imageRemoteUrl)
+													Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
+											            Alert.alert(responseJson.message);
+												    });
+												}}>
+	                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '收到款项' : '打出款项'}</Text>
+	                                        </TouchableOpacity>
+										</View>
+									)}
 								</View>
 							))}
 						</View>
