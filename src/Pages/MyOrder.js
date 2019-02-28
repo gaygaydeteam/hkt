@@ -113,55 +113,83 @@ class MyOrder extends Component {
 							{this.state.Info.map((item, index) => (
 								<View style={styles.infoWrapper} key={index}>
 									{(item.role == '') ? (
-										<Text style={styles.text}>订单匹配中</Text>
-										<Text style={styles.text}>订单时间: {item.add_time}</Text>
-										<Text style={styles.text}>订单金额: {item.money}</Text>
+										<View>
+											<Text style={styles.text}>订单匹配中</Text>
+											<Text style={styles.text}>订单时间: {item.add_time}</Text>
+											<Text style={styles.text}>HKT数量: {item.money}</Text>
+										</View>
 									) : (
-										<Text style={styles.text}>已出单</Text>
-										<Text style={styles.text}>订单时间: {item.add_time}</Text>
-										{(item.role == 'buyer') ? (
-											(item.buy_name == '') ? null : (
-												<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
-											)
-										) : (
-											(item.sale_name == '') ? null : (
-												<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
-											)
-										)}
-										<Text style={styles.text}>{(item.role == 1) ? '购入人姓名' : '售卖人姓名' } : {(item.role == 1) ? item.buy_name : item.sale_name}</Text>
-										<Text style={styles.text}>支付宝: {(item.role == 1) ? item.buy_alipay : item.sale_alipay}</Text>
-										<Text style={styles.text}>银行卡: {(item.role == 1) ? item.buy_bank_card : item.sale_bank_card}</Text>
-										<Text style={styles.text}>联系方式: {(item.role == 1) ? item.buy_phone : item.sale_phone}</Text>
-										<Text style={styles.text}>HKT数量: {(item.role == 1) ? item.money : item.money}</Text>
-										<View style={styles.lastInfo}>
-		                                        <TouchableOpacity onPress={()=> {
-		                                            ImagePicker.openPicker({
-		                                                width: 450,
-		                                                height: 800,
-		                                                cropping: true,
-		                                                writeTempFile: false,
-		                                                compressImageQuality: 1,
-		                                                includeBase64: true,
-		                                                cropperChooseText: '选择',
-		                                                cropperCancelText: '取消',
-		                                            }).then(image => {
-		                                                console.log(image);
-		                                                if(image.size > 5000000) {
-		                                                    Alert.alert('图片不能大于5M');
-		                                                    return;
-		                                                }
-		                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
-		                                                console.log(base64uri);
-		                                                this.uploadImage(id, token, base64uri);
-		                                            }).catch(error => {
-		                                                console.log(error);
-		                                            });
-		                                        }}>
-		                                            <Text style={styles.btnUpload}>{(item.role == 1) ? '' : btnUploadText }</Text>
-		                                        </TouchableOpacity>
-
+										<View>
+											<Text style={styles.text}>已出单</Text>
+											<Text style={styles.text}>订单时间: {item.add_time}</Text>
+											{(item.role == 'buyer') ? (
+												(item.buy_name == '' || item.buy_name == null) ? null : (
+													<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
+												)
+											) : (
+												(item.sale_name == '' || item.sale_name == null) ? null : (
+													<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
+												)
+											)}
+											{(item.role == 'buyer') ? (
+												(item.buy_alipay == '' || item.buy_alipay == null) ? null : (
+													<Text style={styles.text}>支付宝: {item.buy_alipay}</Text>
+												)
+											) : (
+												(item.sale_alipay == '' || item.sale_alipay == null) ? null : (
+													<Text style={styles.text}>支付宝: {item.sale_alipay}</Text>
+												)
+											)}
+											{(item.role == 'buyer') ? (
+												(item.buy_bank_card == '' || item.buy_bank_card == null) ? null : (
+													<Text style={styles.text}>银行卡: {item.buy_bank_card}</Text>
+												)
+											) : (
+												(item.sale_bank_card == '' || item.sale_bank_card == null) ? null : (
+													<Text style={styles.text}>银行卡: {item.sale_bank_card}</Text>
+												)
+											)}
+											{(item.role == 'buyer') ? (
+												(item.buy_phone == '' || item.buy_phone == null) ? null : (
+													<Text style={styles.text}>联系方式: {item.buy_phone}</Text>
+												)
+											) : (
+												(item.sale_phone == '' || item.sale_phone == null) ? null : (
+													<Text style={styles.text}>联系方式: {item.sale_phone}</Text>
+												)
+											)}
+											<Text style={styles.text}>HKT数量: {item.money}</Text>
+											<View style={styles.lastInfo}>
+												{(item.role == 'buyer') ? (
+			                                        <TouchableOpacity onPress={()=> {
+			                                            ImagePicker.openPicker({
+			                                                width: 450,
+			                                                height: 800,
+			                                                cropping: true,
+			                                                writeTempFile: false,
+			                                                compressImageQuality: 1,
+			                                                includeBase64: true,
+			                                                cropperChooseText: '选择',
+			                                                cropperCancelText: '取消',
+			                                            }).then(image => {
+			                                                console.log(image);
+			                                                if(image.size > 5000000) {
+			                                                    Alert.alert('图片不能大于5M');
+			                                                    return;
+			                                                }
+			                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
+			                                                console.log(base64uri);
+			                                                this.uploadImage(id, token, base64uri);
+			                                            }).catch(error => {
+			                                                console.log(error);
+			                                            });
+			                                        }}>
+			                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : ''}</Text>
+			                                        </TouchableOpacity>
+			                                        ) : null
+												}
 												<TouchableOpacity onPress={() => {
-		                                            if(!uploadSuccess && item.role == 2) {
+		                                            if(!uploadSuccess && item.role == 'saler') {
 		                                                Alert.alert('请先上传凭证');
 		                                                return;
 		                                            }
@@ -174,8 +202,9 @@ class MyOrder extends Component {
 											            Alert.alert(responseJson.message);
 												    });
 												}}>
-	                                            <Text style={styles.btnRemit}>{(item.role == 1) ? '收到款项' : '打出款项'}</Text>
-	                                        </TouchableOpacity>
+		                                            <Text style={styles.btnRemit}>{(item.role == 'buyer') ? '确认收款' : '确认打款'}</Text>
+		                                        </TouchableOpacity>
+											</View>
 										</View>
 									)}
 								</View>
