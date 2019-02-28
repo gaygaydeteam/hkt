@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { TouchableWithoutFeedback, ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { appBg, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from '../Api/Api';
@@ -55,6 +55,17 @@ class TransactionList extends Component {
       <View style={styles.list}>
       	<UserItem type={this.props.number} />
       	<UserItem type={this.props.time} />
+      	<TouchableWithoutFeedback onPress={() => {
+      		if(this.props.detail != '详细信息') {
+      			this.props.nav.navigate('BuyDetail', {
+	            	item: this.props.info,
+	            })
+      		}
+      	}}>
+      		<View style={styles.item}>
+	      		<Text style={styles.itemText}>{this.props.detail}</Text>
+	      	</View>
+      	</TouchableWithoutFeedback>
       </View>
     );
   }
@@ -74,7 +85,6 @@ class BuyHistory extends Component {
 		let formData = new FormData();
 		formData.append('id', id);
 		formData.append('token', token);
-		formData.append('type', '1');
 		Api.request(apiUri.getBuyHistory, 'POST', formData).then((responseJson)=>{
 			if(responseJson.code == 'error') {
                 global.toast.show(responseJson.message);
@@ -89,11 +99,11 @@ class BuyHistory extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList number="购买数量" time="挂单时间"/>
+							<TransactionList number="购买数量" time="挂单时间" detail="详细信息"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}
-								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time}/>}
+								renderItem={({item}) => <TransactionList nav={this.props.navigation} info={item} number={item.money} time={item.add_time} detail="详情"/>}
 							/>
 						</View>
 					</ScrollView>

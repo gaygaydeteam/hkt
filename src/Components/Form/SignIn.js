@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Text, View, ImageBackground, TextInput } from 'react-native';
+import { Text, View, ImageBackground, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { appBg, theme, apiUri } from "../../Index";
 import MyButton from './MyButton';
 import Api from "../../Api/Api";
@@ -27,6 +27,12 @@ const Styles = {
     },
     form: {
         alignItems: 'center',
+    },
+    psd: {
+        textAlign: 'center',
+        color: '#fff',
+        marginTop: 10,
+        paddingTop: 10,
     }
 }
 
@@ -44,6 +50,9 @@ class SignIn extends React.Component {
     }
     lock = () => {
         console.log('lock');
+    }
+    jump = () => {
+        this.props.navigation.navigate('RetrievePsw');
     }
     login = () => {
         if(!this.state.username) {
@@ -107,6 +116,9 @@ class SignIn extends React.Component {
                         editable={editable}
                     />
                     <MyButton title="登录" activeOpacity={.5} onPress={editable ? this.login : this.lock}/>
+                    <TouchableWithoutFeedback onPress={this.jump}> 
+                        <Text style={Styles.psd}>忘记密码？</Text>
+                    </TouchableWithoutFeedback>
                 </View>
             </ImageBackground>
         )
