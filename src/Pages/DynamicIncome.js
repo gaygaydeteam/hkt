@@ -50,15 +50,30 @@ class UserItem extends Component {
 }
 
 class TransactionList extends Component {
-  render() {
-    return (
-      <View style={styles.list}>
-      	<UserItem type={this.props.name} />
-      	<UserItem type={this.props.number} />
-      	<UserItem type={this.props.time} />
-      </View>
-    );
-  }
+	changeData = (temp) => {
+		var year = temp.slice(0,4);
+		var month = temp.slice(4,6);
+		var day = temp.slice(6,8);
+		var date = [year,month,day].join('-');
+
+		var hour = temp.slice(8,10);
+		var minute = temp.slice(10,12);
+		var second = temp.slice(12,14);
+		var time = [hour,minute,second].join(':');
+
+		return {date,time};
+	}
+	render() {
+		let timer = this.changeData(this.props.time);
+		showTime = timer.date + ' ' + timer.time;
+		return (
+		  <View style={styles.list}>
+		  	<UserItem type={this.props.name} />
+		  	<UserItem type={this.props.number} />
+		  	<UserItem type={(this.props.head == 'true') ? this.props.time : showTime} />
+		  </View>
+		);
+	}
 }
 class DynamicIncome extends Component {
     static navigationOptions = {
@@ -89,11 +104,11 @@ class DynamicIncome extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList name="ID" number="返佣额" time="时间"/>
+							<TransactionList head="true" name="ID" number="返佣额" time="时间"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}
-								renderItem={({item}) => <TransactionList name={item.from_id} number={item.gold} time={item.add_time}/>}
+								renderItem={({item}) => <TransactionList head="false" name={item.from_id} number={item.gold} time={item.add_time}/>}
 							/>
 						</View>
 					</ScrollView>

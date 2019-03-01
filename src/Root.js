@@ -200,14 +200,24 @@ class Home extends Component {
     }
 
     render() {
-        const { mine_balance, frozen_money, navigation, is_real_name, out_money, id, token } = this.props
+        const { mine_balance, machine_specifications, frozen_money, navigation, is_real_name, out_money, id, token } = this.props
         return (
             <ImageBackground source={appBg} style={Styles.backgroundImage}>
                 <ScrollView style={Styles.home.main}>
                     <UserProfile editable={false} style={Styles.home.userProfile}/>
                     <View style={Styles.home.balanceAndCredit.container}>
                         <View style={Styles.home.balanceAndCredit.machineBuy}>
-                            <TouchableOpacity onPress={() => {if(is_real_name == '1'){navigation.navigate('Buy')}else{Alert.alert('您的身份信息尚未完善，请前往我的页面完善个人信息，完成实名认证审核')}}}>
+                            <TouchableOpacity onPress={() => {
+                                if(is_real_name == '1'){
+                                    if(machine_specifications == '0'){
+                                        navigation.navigate('Buy')
+                                    }else{
+                                        Alert.alert('您已经拥有矿机')
+                                    }
+                                }else{
+                                    Alert.alert('您的身份信息尚未完善，请前往我的页面完善个人信息，完成实名认证审核')
+                                }
+                            }}>
                                 <Text style={Styles.home.balanceAndCredit.text}>获得矿机</Text>
                             </TouchableOpacity>
                         </View>

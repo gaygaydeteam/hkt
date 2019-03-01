@@ -90,7 +90,7 @@ class Buy extends Component {
 	    };
     }
     buy = () => {
-        const { id, token } = this.props;
+        const { id, token, maintain_currency } = this.props;
         const machine_specifications = this.state.machine_specifications;
         let fd = new FormData();
         fd.append('id', id);
@@ -98,12 +98,11 @@ class Buy extends Component {
         fd.append('machine_specifications', machine_specifications);
         Api.request(apiUri.userBuy, 'POST', fd).then((res) => {
             console.log(res);
-            if(res.code == 'error') {
-                global.toast.show(res.message);
-            }
-            if (res.code == 'success') {
-                global.toast.show(res.message);
-            }
+            if(res.code == 'success') {
+    			let number = Number(this.props.maintain_currency) - (Number(machine_specifications)/1000);
+        		this.props.update({maintain_currency: number});
+        	}
+        	global.toast.show(res.message);
         });
     }
 	render () {
@@ -128,7 +127,19 @@ class Buy extends Component {
 		)
 	}
 }
-export default connect((state) => state)(Buy)
+export default connect((state) => {
+	return state
+},(dispatch) => {
+    return {
+        update: (userInfo) => {
+            console.log('update user info');
+            dispatch({
+                type: 'UPDATE_USER_INFO',
+                userInfo,
+            })
+        }
+    }
+})(Buy)
 
 
 //<Text style={{color: '#fff', marginTop:10, marginBottom:10}}>请输入支付宝/银行卡号</Text>

@@ -45,6 +45,7 @@ class BuyDetail extends Component {
 	render () {
 		const { id, token, navigation } = this.props;
 		const item = navigation.getParam('item');
+		const unlockTime = navigation.getParam('unlockTime');
 
 		return (
 			<View style={styles.container}>
@@ -62,6 +63,7 @@ class BuyDetail extends Component {
 							) : (
 								<Text style={styles.text}>支付宝: {item.alipay}</Text>
 							)}
+							<Text style={styles.text}>解锁时间: {unlockTime}</Text>
 						</View>
 					</View>
 			    </ImageBackground>
