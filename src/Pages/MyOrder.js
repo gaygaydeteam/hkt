@@ -197,7 +197,7 @@ class MyOrder extends Component {
 			                                                console.log(error);
 			                                            });
 			                                        }}>
-			                                            <Text style={styles.btnUpload}>{(item.role == 'saler') ? btnUploadText : ''}</Text>
+			                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : ''}</Text>
 			                                        </TouchableOpacity>
 			                                        ) : null
 												}
