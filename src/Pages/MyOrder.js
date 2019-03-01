@@ -127,13 +127,13 @@ class MyOrder extends Component {
 								<View style={styles.infoWrapper} key={index}>
 									{(item.role == '') ? (
 										<View>
-											<Text style={styles.text}>订单匹配中</Text>
+											<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}匹配中</Text>
 											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
 										</View>
 									) : (
 										<View>
-											<Text style={styles.text}>已出单</Text>
+											<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}已出单</Text>
 											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
 											{(item.role == 'saler') ? (
 												(item.buy_name == '' || item.buy_name == null) ? null : (
@@ -141,7 +141,7 @@ class MyOrder extends Component {
 												)
 											) : (
 												(item.sale_name == '' || item.sale_name == null) ? null : (
-													<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
+													<Text style={styles.text}>出售人姓名: {item.sale_name}</Text>
 												)
 											)}
 											{(item.role == 'saler') ? (
