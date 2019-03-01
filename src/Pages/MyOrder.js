@@ -220,6 +220,7 @@ class MyOrder extends Component {
 											</View>
 										</View>
 									)}
+
 								</View>
 							))}
 						</View>
