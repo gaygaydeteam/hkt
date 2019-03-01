@@ -30,6 +30,7 @@ module.exports = {
         }
     },
     apiUri: {
+        uploadImage: 'https://www.blyl1888.com/index.php/Api/Index/upload_image',
         getUserInfo: 'https://www.blyl1888.com/index.php/Api/User/getUserInfo',
         login: 'https://www.blyl1888.com/index.php/Api/User/login',
         userBuy: 'https://www.blyl1888.com/index.php/Api/Order/user_buy',
