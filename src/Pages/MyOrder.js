@@ -102,6 +102,19 @@ class MyOrder extends Component {
             Alert.alert(res.message);
         });
     }
+    changeData = (temp) => {
+		var year = temp.slice(0,4);
+		var month = temp.slice(4,6);
+		var day = temp.slice(6,8);
+		var date = [year,month,day].join('-');
+
+		var hour = temp.slice(8,10);
+		var minute = temp.slice(10,12);
+		var second = temp.slice(12,14);
+		var time = [hour,minute,second].join(':');
+
+		return (date + ' ' + time);
+	}
 	render () {
         const { id, token } = this.props;
         const { btnUploadText, uploadSuccess, imageRemoteUrl } = this.state;
@@ -115,13 +128,13 @@ class MyOrder extends Component {
 									{(item.role == '') ? (
 										<View>
 											<Text style={styles.text}>订单匹配中</Text>
-											<Text style={styles.text}>订单时间: {item.add_time}</Text>
+											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
 										</View>
 									) : (
 										<View>
 											<Text style={styles.text}>已出单</Text>
-											<Text style={styles.text}>订单时间: {item.add_time}</Text>
+											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
 											{(item.role == 'buyer') ? (
 												(item.buy_name == '' || item.buy_name == null) ? null : (
 													<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>

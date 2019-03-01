@@ -56,15 +56,30 @@ class UserItem extends Component {
 }
 
 class TransactionList extends Component {
-  render() {
-    return (
-      <View style={styles.list}>
-      	<UserItem type={this.props.number} />
-      	<UserItem type={this.props.time} />
-      	<UserItem type={this.props.remark} />
-      </View>
-    );
-  }
+	changeData = (temp) => {
+		var year = temp.slice(0,4);
+		var month = temp.slice(4,6);
+		var day = temp.slice(6,8);
+		var date = [year,month,day].join('-');
+
+		var hour = temp.slice(8,10);
+		var minute = temp.slice(10,12);
+		var second = temp.slice(12,14);
+		var time = [hour,minute,second].join(':');
+
+		return {date,time};
+	}
+	render() {
+		let timer = this.changeData(this.props.time);
+		showTime = timer.date + ' ' + timer.time;
+		return (
+		  <View style={styles.list}>
+		  	<UserItem type={this.props.number} />
+		  	<UserItem type={(this.props.head == 'true') ? this.props.time : showTime} />
+		  	<UserItem type={this.props.remark} />
+		  </View>
+		);
+	}
 }
 class TotalDetail extends Component {
     static navigationOptions = {
@@ -98,11 +113,11 @@ class TotalDetail extends Component {
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
 							<Text style={styles.title}>矿机交易记录</Text>
-							<TransactionList number="数量" time="购买时间" remark="备注"/>
+							<TransactionList head="true" number="数量" time="购买时间" remark="备注"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Total}
-								renderItem={({item}) => <TransactionList number={item.money} time={item.add_time} remark={item.remark}/>}
+								renderItem={({item}) => <TransactionList head="false" number={item.money} time={item.add_time} remark={item.remark}/>}
 							/>
 						</View>
 					</ScrollView>

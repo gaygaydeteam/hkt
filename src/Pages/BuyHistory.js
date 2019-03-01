@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback, ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { Alert, TouchableWithoutFeedback, ImageBackground, Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { appBg, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from '../Api/Api';
@@ -50,25 +50,55 @@ class UserItem extends Component {
 }
 
 class TransactionList extends Component {
-  render() {
-    return (
-      <View style={styles.list}>
-      	<UserItem type={this.props.number} />
-      	<UserItem type={this.props.time} />
-      	<TouchableWithoutFeedback onPress={() => {
-      		if(this.props.detail != '详细信息') {
-      			this.props.nav.navigate('BuyDetail', {
-	            	item: this.props.info,
-	            })
-      		}
-      	}}>
-      		<View style={styles.item}>
-	      		<Text style={styles.itemText}>{this.props.detail}</Text>
-	      	</View>
-      	</TouchableWithoutFeedback>
-      </View>
-    );
-  }
+	getNewData = (dateTemp, days) => {
+	   var dateTemp = dateTemp.split("-");
+	   var nDate = new Date(dateTemp[1] + '/' + dateTemp[2] + '/' + dateTemp[0]);
+	   var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);  
+	   var rDate = new Date(millSeconds);  
+	   var year = rDate.getFullYear();  
+	   var month = rDate.getMonth() + 1;
+	   if (month < 10) month = "0" + month;  
+	   var date = rDate.getDate();  
+	   if (date < 10) date = "0" + date;  
+	   return (year + "-" + month + "-" + date);  
+	}
+	changeData = (temp) => {
+		var year = temp.slice(0,4);
+		var month = temp.slice(4,6);
+		var day = temp.slice(6,8);
+		var date = [year,month,day].join('-');
+
+		var hour = temp.slice(8,10);
+		var minute = temp.slice(10,12);
+		var second = temp.slice(12,14);
+		var time = [hour,minute,second].join(':');
+
+		return {date,time};
+	}
+  	render() {
+	  	let timer = this.changeData(this.props.time);
+	  	let unlockTime = this.getNewData(timer.date, 10);
+	  	showTime = timer.date + ' ' + timer.time;
+	  	unlockTime = unlockTime + ' ' + timer.time;
+	    return (
+	      <View style={styles.list}>
+	      	<UserItem type={this.props.number} />
+	      	<UserItem type={(this.props.head == 'true') ? this.props.time : showTime} />
+	      	<TouchableWithoutFeedback onPress={() => {
+	      		if(this.props.head != 'true') {
+	      			this.props.nav.navigate('BuyDetail', {
+		            	item: this.props.info,
+		            	unlockTime: unlockTime
+		            })
+	      		}
+	      	}}>
+	      		<View style={styles.item}>
+		      		<Text style={styles.itemText}>{this.props.detail}</Text>
+		      	</View>
+	      	</TouchableWithoutFeedback>
+	      </View>
+	    );
+  	}
 }
 class BuyHistory extends Component {
     static navigationOptions = {
@@ -99,11 +129,11 @@ class BuyHistory extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<View style={{marginBottom: 20, marginTop: 10}}>
-							<TransactionList number="购买数量" time="挂单时间" detail="详细信息"/>
+							<TransactionList head="true" number="购买数量" time="挂单时间" detail="详细信息"/>
 							<FlatList
 								keyExtractor={(item, index) => index.toString()}
 								data={this.state.Buy}
-								renderItem={({item}) => <TransactionList nav={this.props.navigation} info={item} number={item.money} time={item.add_time} detail="详情"/>}
+								renderItem={({item}) => <TransactionList head="false" nav={this.props.navigation} info={item} number={item.money} time={item.add_time} detail="详情"/>}
 							/>
 						</View>
 					</ScrollView>
