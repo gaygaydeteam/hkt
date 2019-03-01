@@ -173,7 +173,7 @@ class MyOrder extends Component {
 											)}
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
 											<View style={styles.lastInfo}>
-												{(item.role == 'buyer') ? (
+												{(item.role == 'buyer' && item.status == 1) ? (
 			                                        <TouchableOpacity onPress={()=> {
 			                                            ImagePicker.openPicker({
 			                                                width: 450,
@@ -201,22 +201,38 @@ class MyOrder extends Component {
 			                                        </TouchableOpacity>
 			                                        ) : null
 												}
-												<TouchableOpacity onPress={() => {
-		                                            if(!uploadSuccess && item.role == 'saler') {
-		                                                Alert.alert('请先上传凭证');
-		                                                return;
-		                                            }
-													let formData = new FormData();
-													formData.append('id', id);
-													formData.append('token', token);
-		                                            formData.append('list_id', item.list_id);
-		                                            formData.append('image_url', imageRemoteUrl)
-													Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
-											            Alert.alert(responseJson.message);
-												    });
-												}}>
-		                                            <Text style={styles.btnRemit}>{(item.role == 'buyer') ? '确认收款' : '确认打款'}</Text>
-		                                        </TouchableOpacity>
+												{(item.status == 0) ? (
+													<Text style={styles.btnRemit}>已打款</Text>
+												) : (
+													<TouchableOpacity onPress={() => {
+			                                            if(!uploadSuccess && item.role == 'saler') {
+			                                                Alert.alert('请先上传凭证');
+			                                                return;
+			                                            }
+														let formData = new FormData();
+														formData.append('id', id);
+														formData.append('token', token);
+			                                            formData.append('list_id', item.list_id);
+			                                            formData.append('image_url', imageRemoteUrl)
+														Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
+															if(responseJson.code == 'success') {
+																let formData1 = new FormData();
+																formData.append('id', id);
+																formData.append('token', token);
+																Api.request(apiUri.getMyOrder, 'POST', formData1).then((responseJson) => {
+														            if(responseJson.code == 'error') {
+														                global.toast.show(responseJson.message);
+														                return;
+														            }
+															        this.setState({Info: responseJson.data});
+															    });
+															}
+												            Alert.alert(responseJson.message);
+													    });
+													}}>
+			                                            <Text style={styles.btnRemit}>{(item.role == 'buyer') ? '确认收款' : '确认打款'}</Text>
+			                                        </TouchableOpacity>
+												)}
 											</View>
 										</View>
 									)}
