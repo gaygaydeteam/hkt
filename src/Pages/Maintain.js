@@ -81,6 +81,7 @@ class Maintain extends Component {
 	  this._scrollView.scrollTo({x:0, y:100, animated:true});
 	}
 
+
 	//键盘收起后执行
 	keyboardDidHide = () => {
 	  this._scrollView.scrollTo({x:0, y:0, animated:true});
@@ -131,6 +132,10 @@ class Maintain extends Component {
 									formData.append('receive_id', this.state.receiveId);
 	                                console.log(formData);
 	                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
+	                                	if(responseJson.code == 'success') {
+                                		let number = (parseInt(this.props.maintain_currency)*100 - this.state.number*100)/100;
+							        		this.props.update({maintain_currency: number});
+							        	}
 								        Alert.alert(responseJson.message);
 								    })
 					            }}
@@ -143,4 +148,17 @@ class Maintain extends Component {
 		)
 	}
 }
-export default connect((state)=>{console.log(state); return {maintain_currency: state.maintain_currency, id: state.id, token: state.token}})(Maintain)
+export default connect((state)=>{
+	console.log(state);
+	return {maintain_currency: state.maintain_currency, id: state.id, token: state.token}
+},(dispatch) => {
+    return {
+        update: (userInfo) => {
+            console.log('update user info');
+            dispatch({
+                type: 'UPDATE_USER_INFO',
+                userInfo,
+            })
+        }
+    }
+})(Maintain)
