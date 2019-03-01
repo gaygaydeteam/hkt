@@ -133,7 +133,7 @@ class Maintain extends Component {
 	                                console.log(formData);
 	                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
 	                                	if(responseJson.code == 'success') {
-                                		let number = (parseInt(this.props.maintain_currency)*100 - this.state.number*100)/100;
+                                			let number = (parseInt(this.props.maintain_currency)*100 - this.state.number*100)/100;
 							        		this.props.update({maintain_currency: number});
 							        	}
 								        Alert.alert(responseJson.message);
