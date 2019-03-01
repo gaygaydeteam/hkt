@@ -217,8 +217,8 @@ class MyOrder extends Component {
 														Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
 															if(responseJson.code == 'success') {
 																let formData1 = new FormData();
-																formData.append('id', id);
-																formData.append('token', token);
+																formData1.append('id', id);
+																formData1.append('token', token);
 																Api.request(apiUri.getMyOrder, 'POST', formData1).then((responseJson) => {
 														            if(responseJson.code == 'error') {
 														                global.toast.show(responseJson.message);
