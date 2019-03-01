@@ -176,8 +176,8 @@ class MyOrder extends Component {
 												{(item.role == 'buyer') ? (
 			                                        <TouchableOpacity onPress={()=> {
 			                                            ImagePicker.openPicker({
-			                                                width: 800,
-			                                                height: 450,
+			                                                width: 450,
+			                                                height: 800,
 			                                                cropping: true,
 			                                                writeTempFile: false,
 			                                                compressImageQuality: 1,
