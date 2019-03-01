@@ -57,7 +57,6 @@ class UserList extends Component {
     return (
       <View style={styles.list}>
       	<UserItem type={this.props.id} />
-      	<UserItem type={this.props.level} />
       	<UserItem type={this.props.standard} />
       	<UserItem type={this.props.superior} />
       </View>
@@ -88,6 +87,19 @@ class Team extends Component {
 	      this.setState({Team3: responseJson.data.list3});
 	    });
     }
+    changeData = (temp) => {
+		var year = temp.slice(0,4);
+		var month = temp.slice(4,6);
+		var day = temp.slice(6,8);
+		var date = [year,month,day].join('-');
+
+		var hour = temp.slice(8,10);
+		var minute = temp.slice(10,12);
+		var second = temp.slice(12,14);
+		var time = [hour,minute,second].join(':');
+
+		return (date + ' ' + time);
+	}
     keyExtractor = (item, index) => item.id;
 	render () {
 		return (
@@ -95,7 +107,7 @@ class Team extends Component {
 				<ImageBackground source={appBg} style={styles.backgroundImage}>
 					<ScrollView>
 						<Text style={styles.text}>直推</Text>
-						<UserList id="ID" standard="矿机规格" superior="推广码" />
+						<UserList id="ID" standard="矿机规格" superior="注册时间" />
 						<FlatList
                             data={this.state.Team1}
                             keyExtractor={this.keyExtractor}
@@ -103,12 +115,12 @@ class Team extends Component {
                                 <UserList
                                     id={item.id}
                                     standard={item.machine_specifications}
-                                    superior={item.promotion_code}
+                                    superior={this.changeData(item.register_time)}
                                 />
                             }
 						/>
 						<Text style={styles.text}>间推</Text>
-						<UserList id="ID" standard="矿机规格" superior="推广码" />
+						<UserList id="ID" standard="矿机规格" superior="注册时间" />
 						<FlatList
                             data={this.state.Team2}
                             keyExtractor={this.keyExtractor}
@@ -116,12 +128,12 @@ class Team extends Component {
                                 <UserList
                                     id={item.id}
                                     standard={item.machine_specifications}
-                                    superior={item.promotion_code}
+                                    superior={this.changeData(item.register_time)}
                                 />
                             }
 						/>
 						<Text style={styles.text}>二级间推</Text>
-						<UserList id="ID" standard="矿机规格" superior="推广码" />
+						<UserList id="ID" standard="矿机规格" superior="注册时间" />
 						<FlatList
                             data={this.state.Team3}
                             keyExtractor={this.keyExtractor}
@@ -129,7 +141,7 @@ class Team extends Component {
                                 <UserList
                                     id={item.id}
                                     standard={item.machine_specifications}
-                                    superior={item.promotion_code}
+                                    superior={this.changeData(item.register_time)}
                                 />
                             }
 						/>

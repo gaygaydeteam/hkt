@@ -135,7 +135,7 @@ class MyOrder extends Component {
 										<View>
 											<Text style={styles.text}>已出单</Text>
 											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_name == '' || item.buy_name == null) ? null : (
 													<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
 												)
@@ -144,7 +144,7 @@ class MyOrder extends Component {
 													<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_alipay == '' || item.buy_alipay == null) ? null : (
 													<Text style={styles.text}>支付宝: {item.buy_alipay}</Text>
 												)
@@ -153,7 +153,7 @@ class MyOrder extends Component {
 													<Text style={styles.text}>支付宝: {item.sale_alipay}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_bank_card == '' || item.buy_bank_card == null) ? null : (
 													<Text style={styles.text}>银行卡: {item.buy_bank_card}</Text>
 												)
@@ -162,7 +162,7 @@ class MyOrder extends Component {
 													<Text style={styles.text}>银行卡: {item.sale_bank_card}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_phone == '' || item.buy_phone == null) ? null : (
 													<Text style={styles.text}>联系方式: {item.buy_phone}</Text>
 												)
@@ -176,8 +176,8 @@ class MyOrder extends Component {
 												{(item.role == 'buyer') ? (
 			                                        <TouchableOpacity onPress={()=> {
 			                                            ImagePicker.openPicker({
-			                                                width: 450,
-			                                                height: 800,
+			                                                width: 800,
+			                                                height: 450,
 			                                                cropping: true,
 			                                                writeTempFile: false,
 			                                                compressImageQuality: 1,
@@ -185,7 +185,6 @@ class MyOrder extends Component {
 			                                                cropperChooseText: '选择',
 			                                                cropperCancelText: '取消',
 			                                            }).then(image => {
-			                                                console.log(image);
 			                                                if(image.size > 5000000) {
 			                                                    Alert.alert('图片不能大于5M');
 			                                                    return;
@@ -197,12 +196,12 @@ class MyOrder extends Component {
 			                                                console.log(error);
 			                                            });
 			                                        }}>
-			                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : ''}</Text>
+			                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : '' }</Text>
 			                                        </TouchableOpacity>
 			                                        ) : null
 												}
 												<TouchableOpacity onPress={() => {
-		                                            if(!uploadSuccess && item.role == 'saler') {
+		                                            if(!uploadSuccess && item.role != 'saler') {
 		                                                Alert.alert('请先上传凭证');
 		                                                return;
 		                                            }
@@ -215,7 +214,7 @@ class MyOrder extends Component {
 											            Alert.alert(responseJson.message);
 												    });
 												}}>
-		                                            <Text style={styles.btnRemit}>{(item.role == 'buyer') ? '确认收款' : '确认打款'}</Text>
+		                                            <Text style={styles.btnRemit}>{(item.role == 'saler') ? '确认收款' : '确认打款'}</Text>
 		                                        </TouchableOpacity>
 											</View>
 										</View>
