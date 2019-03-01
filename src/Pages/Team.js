@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 class UserItem extends Component {
 	render() {
 		return (
-			<View style={styles.item}>
+			<View style={(this.props.style == '1') ? [styles.item, {width: 155, flex: 0}] : styles.item}>
 	      		<Text style={styles.itemText}>{this.props.type}</Text>
 	      	</View>
 		)
@@ -57,7 +57,7 @@ class UserList extends Component {
     return (
       <View style={styles.list}>
       	<UserItem type={this.props.id} />
-      	<UserItem type={this.props.superior} />
+      	<UserItem style='1' type={this.props.superior} />
       	<UserItem type={this.props.standard} />
       </View>
     );
