@@ -47,5 +47,6 @@ module.exports = {
         getChangePassword: 'https://www.blyl1888.com/index.php/Api/User/changePassword',
         getRealName: 'https://www.blyl1888.com/index.php/Api/User/real_name',
         getMessage: 'https://www.blyl1888.com/index.php/Api/User/sendcode?phone=',
+        getPassword: 'https://www.blyl1888.com/index.php/Api/User/passwordFind',
     }
 }

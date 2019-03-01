@@ -78,11 +78,11 @@ export default class RetrievePsw extends React.Component {
             Alert.alert('请输入新密码');
         }else if(this.state.newPassword == this.state.rewrite) {
             let formData = new FormData();
-            formData.append('phone', this.state.userName);
             formData.append('phone', this.state.phoneNumber);
-            formData.append('phone', this.state.captcha);
-            formData.append('phone', this.state.newPassword);
-            Api.request(apiUri.getMessage, 'POST', formData).then((responseJson)=>{
+            formData.append('username', this.state.userName);
+            formData.append('mobileCode', this.state.captcha);
+            formData.append('password', this.state.newPassword);
+            Api.request(apiUri.getPassword, 'POST', formData).then((responseJson)=>{
                 global.toast.show(responseJson.message);
             })
         }else {
@@ -178,7 +178,7 @@ export default class RetrievePsw extends React.Component {
                                 placeholder="请输入新密码"
                                 placeholderTextColor={theme.lightGray}
                                 selectionColor="#fff"
-                                maxLength={8}
+                                maxLength={12}
                                 secureTextEntry={true}
                                 defaultValue={this.state.newPassword}
                             />
@@ -188,7 +188,7 @@ export default class RetrievePsw extends React.Component {
                                 placeholder="再次确认新密码"
                                 placeholderTextColor={theme.lightGray}
                                 selectionColor="#fff"
-                                maxLength={8}
+                                maxLength={12}
                                 secureTextEntry={true}
                                 defaultValue={this.state.rewrite}
                             />

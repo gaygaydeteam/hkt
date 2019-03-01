@@ -74,7 +74,7 @@ class ChangePassword extends Component {
 		                        placeholder="请输入旧密码"
 		                        placeholderTextColor={theme.lightGray}
 		                        selectionColor="#fff"
-		                        maxLength={8}
+		                        maxLength={12}
 		                        secureTextEntry={true}
 		                        defaultValue={this.state.oldPassword}
 		                    />
@@ -84,7 +84,7 @@ class ChangePassword extends Component {
 		                        placeholder="请输入新密码"
 		                        placeholderTextColor={theme.lightGray}
 		                        selectionColor="#fff"
-		                        maxLength={8}
+		                        maxLength={12}
 		                        secureTextEntry={true}
 		                        defaultValue={this.state.newPassword}
 		                    />
