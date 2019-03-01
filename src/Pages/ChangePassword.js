@@ -58,8 +58,13 @@ class ChangePassword extends Component {
         fd.append('password', this.state.oldPassword);
         fd.append('new_pwd', this.state.newPassword);
         Api.request(apiUri.getChangePassword, 'POST', fd).then((res) => {
-            console.log(res);
-            global.toast.show(res.message);
+            if(res.code == 'success') {
+            	this.props.reset();
+            	global.toast.show('修改成功，请重新登录');
+            	this.props.navigation.navigate('SignIn');
+            }else {
+            	global.toast.show(res.message);
+            }
         });
     }
 	render () {
@@ -96,4 +101,15 @@ class ChangePassword extends Component {
 		)
 	}
 }
-export default connect((state) => state)(ChangePassword)
+export default connect((state) => {
+	return state
+},(dispatch) => {
+    return {
+    	reset: () => {
+		    console.log('reset user state');
+		    dispatch({
+		        type: 'RESET_USER_STATE',
+		    })
+		}
+    }
+})(ChangePassword)

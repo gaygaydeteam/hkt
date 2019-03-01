@@ -84,6 +84,9 @@ export default class RetrievePsw extends React.Component {
             formData.append('password', this.state.newPassword);
             Api.request(apiUri.getPassword, 'POST', formData).then((responseJson)=>{
                 global.toast.show(responseJson.message);
+                if(responseJson.code == 'success') {
+                    this.props.navigation.goBack();
+                }
             })
         }else {
             Alert.alert('俩次输入密码不一致');
