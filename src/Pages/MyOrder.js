@@ -172,12 +172,13 @@ class MyOrder extends Component {
 												)
 											)}
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
-											<View style={{height: 200, marginBottom: 10}}>
+											{(item.image_url != '')? (<View style={{height: 600,marginBottom: 10}}>
 												<Image
-													style={{width: '100%', height: '100%',resizeMode:'stretch'}}
+													style={{width: '100%', height: '100%',resizeMode:'contain'}}
 										          	source={{uri: item.image_url}}
 										        />
 									        </View>
+									        ) : null}
 											<View style={styles.lastInfo}>
 												{(item.role == 'buyer' && item.status == 1) ? (
 			                                        <TouchableOpacity onPress={()=> {
