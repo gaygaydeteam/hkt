@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Image, Alert, ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { appBg, theme, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from '../Api/Api';
@@ -172,6 +172,12 @@ class MyOrder extends Component {
 												)
 											)}
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
+											<View style={{height: 200, marginBottom: 10}}>
+												<Image
+													style={{width: '100%', height: '100%',resizeMode:'stretch'}}
+										          	source={{uri: item.image_url}}
+										        />
+									        </View>
 											<View style={styles.lastInfo}>
 												{(item.role == 'buyer' && item.status == 1) ? (
 			                                        <TouchableOpacity onPress={()=> {
