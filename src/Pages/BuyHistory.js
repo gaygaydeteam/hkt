@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 class UserItem extends Component {
 	render() {
 		return (
-			<View style={styles.item}>
+			<View style={(this.props.style == '1') ? [styles.item, {width: 160, flex: 0}] : styles.item}>
 	      		<Text style={styles.itemText}>{this.props.type}</Text>
 	      	</View>
 		)
@@ -83,7 +83,7 @@ class TransactionList extends Component {
 	    return (
 	      <View style={styles.list}>
 	      	<UserItem type={this.props.number} />
-	      	<UserItem type={(this.props.head == 'true') ? this.props.time : showTime} />
+	      	<UserItem style='1' type={(this.props.head == 'true') ? this.props.time : showTime} />
 	      	<TouchableWithoutFeedback onPress={() => {
 	      		if(this.props.head != 'true') {
 	      			this.props.nav.navigate('BuyDetail', {
