@@ -201,7 +201,7 @@ class MyOrder extends Component {
 			                                        </TouchableOpacity>
 			                                        ) : null
 												}
-												{(item.status == 0 && role == 'buyer') ? (
+												{(item.status == 0 && item.role == 'buyer') ? (
 													<Text style={styles.btnRemit}>已打款</Text>
 												) : (
 													<TouchableOpacity onPress={() => {
