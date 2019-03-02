@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 class UserItem extends Component {
 	render() {
 		return (
-			<View style={styles.item}>
+			<View style={(this.props.style == '1') ? [styles.item, {width: 160, flex: 0}] : styles.item}>
 	      		<Text style={styles.itemText}>{this.props.type}</Text>
 	      	</View>
 		)
