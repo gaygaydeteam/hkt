@@ -135,16 +135,16 @@ class MyOrder extends Component {
 										<View>
 											<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}已出单</Text>
 											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_name == '' || item.buy_name == null) ? null : (
 													<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
 												)
 											) : (
 												(item.sale_name == '' || item.sale_name == null) ? null : (
-													<Text style={styles.text}>购入人姓名: {item.sale_name}</Text>
+													<Text style={styles.text}>售卖人姓名: {item.sale_name}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_alipay == '' || item.buy_alipay == null) ? null : (
 													<Text style={styles.text}>支付宝: {item.buy_alipay}</Text>
 												)
@@ -153,7 +153,7 @@ class MyOrder extends Component {
 													<Text style={styles.text}>支付宝: {item.sale_alipay}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_bank_card == '' || item.buy_bank_card == null) ? null : (
 													<Text style={styles.text}>银行卡: {item.buy_bank_card}</Text>
 												)
@@ -162,7 +162,7 @@ class MyOrder extends Component {
 													<Text style={styles.text}>银行卡: {item.sale_bank_card}</Text>
 												)
 											)}
-											{(item.role == 'buyer') ? (
+											{(item.role == 'saler') ? (
 												(item.buy_phone == '' || item.buy_phone == null) ? null : (
 													<Text style={styles.text}>联系方式: {item.buy_phone}</Text>
 												)
@@ -172,12 +172,13 @@ class MyOrder extends Component {
 												)
 											)}
 											<Text style={styles.text}>HKT数量: {item.money}</Text>
-											<View style={{height: 200, marginBottom: 10}}>
+											{(item.image_url != '')? (<View style={{height: 600,marginBottom: 10}}>
 												<Image
-													style={{width: '100%', height: '100%',resizeMode:'stretch'}}
+													style={{width: '100%', height: '100%',resizeMode:'contain'}}
 										          	source={{uri: item.image_url}}
 										        />
 									        </View>
+									        ) : null}
 											<View style={styles.lastInfo}>
 												{(item.role == 'buyer' && item.status == 1) ? (
 			                                        <TouchableOpacity onPress={()=> {
@@ -207,7 +208,7 @@ class MyOrder extends Component {
 			                                        </TouchableOpacity>
 			                                        ) : null
 												}
-												{(item.status == 0) ? (
+												{(item.status == 0 && item.role == 'buyer') ? (
 													<Text style={styles.btnRemit}>已打款</Text>
 												) : (
 													<TouchableOpacity onPress={() => {
