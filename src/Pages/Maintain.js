@@ -1,26 +1,37 @@
 import React, { Component } from 'react';
 import { Keyboard, ImageBackground, Text, View, StyleSheet, TextInput, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
-import { appBg, apiUri } from '../Index';
+import { appBg, apiUri, theme } from '../Index';
 import Api from '../Api/Api';
 import { connect } from 'react-redux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MyButton from '../Components/Form/MyButton';
 
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
     },
-	backgroundImage:{
-	    flex:1,
-	    resizeMode: 'cover',
-	    width:null,
-	    width:null,
-	    backgroundColor:'rgba(0,0,0,0)',
-	},
+	inputWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        borderBottomWidth: 1,
+        borderColor: '#DDD',
+        marginBottom: 20
+    },
+    inputText: {
+        width: '25%',
+        fontSize: 20,
+        paddingTop: 15,
+        paddingBottom: 15
+    },
+    customInput: {
+    	width: '70%'
+    },
 	title: {
 		textAlign: 'center',
-		color: 'white',
-		fontSize: 16,
-		fontWeight: 'bold',
+		color: '#49AAF0',
+		fontSize: 18,
 		marginBottom: 15
 	},
 	content: {
@@ -47,9 +58,6 @@ const styles = StyleSheet.create({
       	justifyContent: "center",
 		alignItems: "center",
 		height: '100%'
-	},
-	scroll: {
-
 	}
 });
 
@@ -90,60 +98,65 @@ class Maintain extends Component {
 		const { id, token, maintain_currency } = this.props;
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<View style={styles.content}>
-						<ScrollView
-						ref={component => this._scrollView=component}
-						scrollEnabled={false}
-                        keyboardShouldPersistTaps='always'
-                        contentContainerStyle={{flex:1}}
-                        >
-							<View style={styles.inputContent}>
-								<Text style={styles.title}>转移维护币(剩余: {maintain_currency})</Text>
+				<View style={styles.content}>
+					<ScrollView
+					ref={component => this._scrollView=component}
+					scrollEnabled={false}
+                    keyboardShouldPersistTaps='always'
+                    contentContainerStyle={{flex:1}}
+                    >
+						<View style={styles.inputContent}>
+							<Text style={styles.title}>转移维护币(剩余: {maintain_currency})</Text>
+							<View style={styles.inputWrapper}>
+								<Text style={styles.inputText}>转移数量</Text>
 								<TextInput
 									keyboardType="numeric"
 									placeholder="请输入数量"
-									style={[styles.inputStyle, {marginBottom: 20}]}
+									style={[theme.textInput, styles.customInput]}
 							        onChangeText={(number) => {
 							        	const newMoney = number.replace(/[^\d]+/, '');
 							        	this.setState({number: newMoney})
 							        }}
 							        value={this.state.number}
 							    />
-							    <Text style={styles.title}>接收维护币的用户ID</Text>
+							    <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+							</View>
+						    <View style={styles.inputWrapper}>
+						    	<Text style={styles.inputText}>接收者ID</Text>
 								<TextInput
 									keyboardType="numeric"
-									placeholder="请输入ID"
-									style={styles.inputStyle}
+									placeholder="接收维护币用户ID"
+									style={[theme.textInput, styles.customInput]}
 							        onChangeText={(number) => {
 							        	const newText = number.replace(/[^\d]+/, '');
 							        	this.setState({receiveId: newText})
 							        }}
 							        value={this.state.receiveId}
 							    />
-							    <MyButton
-							    title="确定"
-							    style={{container: {marginTop: 20}}}
-					            onPress={() => {
-					                let formData = new FormData();
-									formData.append('send_id', id);
-									formData.append('token', token);
-									formData.append('number', this.state.number);
-									formData.append('receive_id', this.state.receiveId);
-	                                console.log(formData);
-	                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
-	                                	if(responseJson.code == 'success') {
-                                			let number = (parseInt(this.props.maintain_currency)*100 - this.state.number*100)/100;
-							        		this.props.update({maintain_currency: number});
-							        	}
-								        Alert.alert(responseJson.message);
-								    })
-					            }}
-					             />
+							    <FontAwesome name={'angle-down'} size={30} color="#BBB" />
 							</View>
-						</ScrollView>
-					</View>
-			    </ImageBackground>
+						    <MyButton
+						    title="确定"
+						    style={{container: {marginTop: 20}}}
+				            onPress={() => {
+				                let formData = new FormData();
+								formData.append('send_id', id);
+								formData.append('token', token);
+								formData.append('number', this.state.number);
+								formData.append('receive_id', this.state.receiveId);
+                                console.log(formData);
+                                Api.request(apiUri.getTransfer, 'POST', formData).then((responseJson) => {
+                                	if(responseJson.code == 'success') {
+                            			let number = (parseInt(this.props.maintain_currency)*100 - this.state.number*100)/100;
+						        		this.props.update({maintain_currency: number});
+						        	}
+							        Alert.alert(responseJson.message);
+							    })
+				            }}
+				             />
+						</View>
+					</ScrollView>
+				</View>
 			</View>
 		)
 	}

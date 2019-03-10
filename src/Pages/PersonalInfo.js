@@ -3,57 +3,37 @@ import { ImageBackground, Text, View, StyleSheet, ScrollView, TextInput, Touchab
 import { appBg, theme, apiUri } from '../Index';
 import { connect } from 'react-redux';
 import Api from  '../Api/Api';
+import MyButton from '../Components/Form/MyButton';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
 	container: {
         flex: 1
     },
-	backgroundImage:{
-	    flex:1,
-	    resizeMode: 'cover',
-	    width:null,
-	    width:null,
-	    backgroundColor:'rgba(0,0,0,0)',
-	    paddingTop: 20
-	},
-	text: {
-		fontSize: 18,
-		color: '#fff',
-		width: '30%',
-		textAlign: 'right',
-		paddingRight: 15,
-	},
-	confirmWrapper: {
-        width: 160,
-        marginTop: 15,
-        paddingTop: 15,
-        paddingBottom: 15,
-        borderRadius: 60,
-        backgroundColor: theme.opacityWhite,
-        flexDirection: 'row',
+    contentWrapper: {
+    	flex: 1,
     	justifyContent: 'center',
+    	alignItems: 'center',
+    	marginTop: 10
     },
-    item: {
-    	flex: 1,
-    	flexDirection: 'row',
-    	alignItems: "center",
-    	marginBottom: 15,
-
+	inputText: {
+        width: '25%',
+        fontSize: 20,
+        paddingTop: 15,
+        paddingBottom: 15
     },
-    confirm: {
-        fontSize: 18,
-        color: '#fff',
+    customInput: {
+    	width: '70%'
     },
-    inputField: {
-        width: '60%',
-        marginBottom: 0
+    inputWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        borderBottomWidth: 1,
+        borderColor: '#DDD',
+        marginBottom: 20
     },
-    btn: {
-    	flex: 1,
-    	flexDirection: 'row',
-    	alignItems: "center",
-    	justifyContent: 'center'
-    }
 });
 
 class PersonalInfo extends Component {
@@ -76,122 +56,118 @@ class PersonalInfo extends Component {
         // const {username, resident_id_card, alipay, bank_card, promotion_code} = {username: 'zzz', resident_id_card: '23er2f', alipay: '1111', bank_card: '2222', promotion_code: '43324'};
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<ScrollView
-					>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>姓名</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(real_name == ''|| real_name == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={real_name}
-							    onChangeText={(value) => {
-							      this.setState({
-							        userName: value,
-							      });
-							    }}
-							    placeholder="请输入名字"
-							    editable={(real_name == ''|| real_name == null) ? true : false}
-								/>
-							</View>
+				<ScrollView
+				>	
+					<View style={styles.contentWrapper}>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>姓名</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(real_name == ''|| real_name == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={real_name}
+						    onChangeText={(value) => {
+						      this.setState({
+						        userName: value,
+						      });
+						    }}
+						    placeholder="请输入名字"
+						    editable={(real_name == ''|| real_name == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>身份证</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(resident_id_card == '' || resident_id_card == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={resident_id_card}
-							    onChangeText={(value) => {
-							      this.setState({
-							        idCard: value,
-							      });
-							    }}
-							    placeholder="请输入身份证"
-							    editable={(resident_id_card == '' || resident_id_card == null) ? true : false}
-								/>
-							</View>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>身份证</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(resident_id_card == '' || resident_id_card == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={resident_id_card}
+						    onChangeText={(value) => {
+						      this.setState({
+						        idCard: value,
+						      });
+						    }}
+						    placeholder="请输入身份证"
+						    editable={(resident_id_card == '' || resident_id_card == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>手机号</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(phone == '' || phone == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={phone}
-							    maxLength={11}
-							    keyboardType="numeric"
-							    onChangeText={(value) => {
-							      const newPhone = value.replace(/[^\d]+/, '');
-							      this.setState({
-							        phoneNumber: newPhone,
-							      });
-							    }}
-							    placeholder="请输入手机号"
-							    editable={(phone == '' || phone == null) ? true : false}
-								/>
-							</View>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>手机号</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(phone == '' || phone == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={phone}
+						    maxLength={11}
+						    keyboardType="numeric"
+						    onChangeText={(value) => {
+						      const newPhone = value.replace(/[^\d]+/, '');
+						      this.setState({
+						        phoneNumber: newPhone,
+						      });
+						    }}
+						    placeholder="请输入手机号"
+						    editable={(phone == '' || phone == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>银行卡号</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(bank_card == '' || bank_card == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={bank_card}
-							    onChangeText={(value) => {
-							      this.setState({
-							        bankCard: value,
-							      });
-							    }}
-							    placeholder="银行卡号仅限四大行"
-							    editable={(bank_card == '' || bank_card == null) ? true : false}
-								/>
-							</View>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>银行卡号</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(bank_card == '' || bank_card == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={bank_card}
+						    onChangeText={(value) => {
+						      this.setState({
+						        bankCard: value,
+						      });
+						    }}
+						    placeholder="银行卡号仅限四大行"
+						    editable={(bank_card == '' || bank_card == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>支付宝</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(alipay == '' || alipay == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={alipay}
-							    onChangeText={(value) => {
-							      this.setState({
-							        aPay: value,
-							      });
-							    }}
-							    placeholder="请输入支付宝账号"
-							    editable={(alipay == '' || alipay == null) ? true : false}
-								/>
-							</View>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>支付宝</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(alipay == '' || alipay == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={alipay}
+						    onChangeText={(value) => {
+						      this.setState({
+						        aPay: value,
+						      });
+						    }}
+						    placeholder="请输入支付宝账号"
+						    editable={(alipay == '' || alipay == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View>
-							<View style={styles.item}>
-								<Text style={styles.text}>推广码</Text>
-								<TextInput
-								placeholderTextColor={theme.lightGray}
-								autoCapitalize = 'none'
-								style={(promotion_code == '' || promotion_code == null) ? [theme.textInput, styles.inputField] : [theme.textInput, theme.textInputDisable, styles.inputField]}
-							    defaultValue={promotion_code}
-							    onChangeText={(value) => {
-							      this.setState({
-							        spreadCode: value,
-							      });
-							    }}
-							    placeholder="请输入推广码"
-							    editable={(promotion_code == '' || promotion_code == null) ? true : false}
-								/>
-							</View>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>推广码</Text>
+							<TextInput
+							placeholderTextColor={theme.lightGray}
+							autoCapitalize = 'none'
+							style={(promotion_code == '' || promotion_code == null) ? [theme.textInput, styles.customInput] : [theme.textInput, theme.textInputDisable, styles.customInput]}
+						    defaultValue={promotion_code}
+						    onChangeText={(value) => {
+						      this.setState({
+						        spreadCode: value,
+						      });
+						    }}
+						    placeholder="请输入推广码"
+						    editable={(promotion_code == '' || promotion_code == null) ? true : false}
+							/>
+							<FontAwesome name={'angle-down'} size={30} color="#BBB" />
 						</View>
-						<View style={styles.btn}>
-							<TouchableOpacity onPress={() => {
+						<MyButton
+						    title="确定"
+						    style={{container: {marginTop: 20}}}
+						    onPress={() => {
 								const { id, token } = this.props;
 						        let fd = new FormData();
 						        fd.append('id', id);
@@ -207,14 +183,10 @@ class PersonalInfo extends Component {
 						        	}
 						            global.toast.show(res.message);
 						        });
-							}} 
-							style={styles.confirmWrapper}
-							>
-	                            <Text style={styles.confirm}>确定</Text>
-	                        </TouchableOpacity>
-                        </View>
-					</ScrollView>
-			    </ImageBackground>
+							}}
+						/>
+					</View>
+				</ScrollView>
 			</View>
 		)
 	}

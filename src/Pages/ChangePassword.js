@@ -4,17 +4,30 @@ import { appBg, theme, apiUri } from '../Index';
 import MyButton from '../Components/Form/MyButton';
 import Api from  '../Api/Api';
 import { connect } from 'react-redux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
     },
-	backgroundImage:{
-	    flex:1,
-	    resizeMode: 'cover',
-	    width:null,
-	    width:null,
-	    backgroundColor:'rgba(0,0,0,0)',
-	},
+	inputWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        borderBottomWidth: 1,
+        borderColor: '#DDD',
+        marginBottom: 20
+    },
+    inputText: {
+        width: '20%',
+        fontSize: 20,
+        paddingTop: 15,
+        paddingBottom: 15
+    },
+    customInput: {
+    	width: '75%'
+    },
 	title: {
 		marginTop: theme.appTopHeight,
 		textAlign: 'center',
@@ -70,11 +83,12 @@ class ChangePassword extends Component {
 	render () {
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<View style={styles.content}>
-						<View style={styles.listWrapper}>
+				<View style={styles.content}>
+					<View style={styles.listWrapper}>
+						<View style={styles.inputWrapper}>
+							<Text style={styles.inputText}>旧密码</Text>
 							<TextInput
-		                        style={theme.textInput}
+		                        style={[theme.textInput, styles.customInput]}
 		                        onChangeText={(password) => this.state.oldPassword = password}
 		                        placeholder="请输入旧密码"
 		                        placeholderTextColor={theme.lightGray}
@@ -83,8 +97,12 @@ class ChangePassword extends Component {
 		                        secureTextEntry={true}
 		                        defaultValue={this.state.oldPassword}
 		                    />
+		                    <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+	                    </View>
+	                    <View style={styles.inputWrapper}>
+	                    	<Text style={styles.inputText}>新密码</Text>
 		                    <TextInput
-		                        style={theme.textInput}
+		                        style={[theme.textInput, styles.customInput]}
 		                        onChangeText={(password) => this.state.newPassword = password}
 		                        placeholder="请输入新密码"
 		                        placeholderTextColor={theme.lightGray}
@@ -93,10 +111,11 @@ class ChangePassword extends Component {
 		                        secureTextEntry={true}
 		                        defaultValue={this.state.newPassword}
 		                    />
-                            <MyButton title="确定" onPress={this.change}/>
-						</View>
+		                    <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+	                    </View>
+                        <MyButton title="确定" onPress={this.change}/>
 					</View>
-			    </ImageBackground>
+				</View>
 			</View>
 		)
 	}

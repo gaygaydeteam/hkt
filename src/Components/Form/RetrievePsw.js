@@ -3,24 +3,28 @@ import { TouchableWithoutFeedback, ImageBackground, Text, View, StyleSheet, Text
 import { appBg, theme, apiUri } from '../../Index';
 import MyButton from './MyButton';
 import Api from "../../Api/Api";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    backgroundImage:{
-        flex:1,
-        resizeMode: 'cover',
-        width:null,
-        width:null,
-        backgroundColor:'rgba(0,0,0,0)',
+    inputWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        borderBottomWidth: 1,
+        borderColor: '#DDD',
+        marginBottom: 20
     },
-    title: {
-        marginTop: theme.appTopHeight,
-        textAlign: 'center',
-        color: 'white',
+    inputText: {
+        width: 100,
         fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 30
+        paddingTop: 15,
+        paddingBottom: 15
+    },
+    customInput: {
+        flex: 1
     },
     content: {
         position: 'absolute',
@@ -43,15 +47,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     sendText: {
-        color: '#fff',
-        marginBottom: 20,
+        color: '#333',
         paddingTop: 15,
         paddingBottom: 15,
         paddingLeft: 20,
         paddingRight: 20,
         textAlign: 'center',
         fontSize: 16,
-        width: '50%',
+        width: '30%',
     }
 });
 
@@ -95,13 +98,14 @@ export default class RetrievePsw extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground source={appBg} style={styles.backgroundImage}>
-                    <View style={styles.content}>
-                        <View style={styles.listWrapper}>
+                <View style={styles.content}>
+                    <View style={styles.listWrapper}>
+                        <View style={styles.inputWrapper}>
+                            <Text style={styles.inputText}>账号</Text>
                             <TextInput
                                 placeholderTextColor={theme.lightGray}
                                 autoCapitalize = 'none'
-                                style={theme.textInput}
+                                style={[theme.textInput, styles.customInput]}
                                 onChangeText={(value) => {
                                   this.setState({
                                     userName: value,
@@ -109,10 +113,14 @@ export default class RetrievePsw extends React.Component {
                                 }}
                                 placeholder="请输入账号"
                             />
+                            <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+                        </View>
+                        <View style={styles.inputWrapper}>
+                            <Text style={styles.inputText}>手机号</Text>
                             <TextInput
                                 placeholderTextColor={theme.lightGray}
                                 autoCapitalize = 'none'
-                                style={theme.textInput}
+                                style={[theme.textInput, styles.customInput]}
                                 maxLength={11}
                                 keyboardType="numeric"
                                 onChangeText={(value) => {
@@ -123,60 +131,64 @@ export default class RetrievePsw extends React.Component {
                                 }}
                                 placeholder="请输入手机号"
                             />
-                            <View style={styles.captcha}>
-                                <TextInput
-                                    placeholderTextColor={theme.lightGray}
-                                    autoCapitalize = 'none'
-                                    style={[theme.textInput,{width: '50%'}]}
-                                    keyboardType="numeric"
-                                    onChangeText={(value) => {
-                                      const newPhone = value.replace(/[^\d]+/, '');
-                                      this.setState({
-                                        captcha: newPhone,
-                                      });
-                                    }}
-                                    placeholder="请输入验证码"
-                                />
-                                <TouchableWithoutFeedback
-                                style={styles.sendWrapper}
-                                onPress={() => {
-                                    if(!this.state.disabled) {
-                                        if(this.state.phoneNumber == ''){
-                                            Alert.alert('请输入手机号');
-                                        }else {
-                                            let formData = new FormData();
-                                            formData.append('phone', this.state.phoneNumber);
-                                            Api.request(apiUri.getMessage + this.state.phoneNumber, 'POST', formData).then((responseJson)=>{
-                                                global.toast.show(responseJson.message);
-                                            })
-                                            this.setState({
-                                                isSend: true,
-                                                disabled: true
-                                            });
-                                            let interval = setInterval(() => {
-                                                let timer = this.state.timeOut - 1;
-                                                if(timer <= 0) {
-                                                    this.setState({
-                                                        isSend: false,
-                                                        timeOut: 120,
-                                                        disabled: false,
-                                                        sendInfo: '重新发送'
-                                                    });
-                                                    clearInterval(interval);
-                                                }else {
-                                                    this.setState({
-                                                        timeOut: timer,
-                                                    })
-                                                }
-                                            }, 1000);
-                                        }
-                                    }
-                                }}>
-                                    {(this.state.isSend) ? <Text style={styles.sendText}>{this.state.timeOut}S</Text> : <Text style={styles.sendText}>{this.state.sendInfo}</Text>}
-                                </TouchableWithoutFeedback>
-                            </View>
+                            <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+                        </View>
+                        <View style={styles.inputWrapper}>
+                            <Text style={styles.inputText}>验证码</Text>
                             <TextInput
-                                style={theme.textInput}
+                                placeholderTextColor={theme.lightGray}
+                                autoCapitalize = 'none'
+                                style={[theme.textInput,{width: '45%'}]}
+                                keyboardType="numeric"
+                                onChangeText={(value) => {
+                                  const newPhone = value.replace(/[^\d]+/, '');
+                                  this.setState({
+                                    captcha: newPhone,
+                                  });
+                                }}
+                                placeholder="请输入验证码"
+                            />
+                            <TouchableWithoutFeedback
+                            onPress={() => {
+                                if(!this.state.disabled) {
+                                    if(this.state.phoneNumber == ''){
+                                        Alert.alert('请输入手机号');
+                                    }else {
+                                        let formData = new FormData();
+                                        formData.append('phone', this.state.phoneNumber);
+                                        Api.request(apiUri.getMessage + this.state.phoneNumber, 'POST', formData).then((responseJson)=>{
+                                            global.toast.show(responseJson.message);
+                                        })
+                                        this.setState({
+                                            isSend: true,
+                                            disabled: true
+                                        });
+                                        let interval = setInterval(() => {
+                                            let timer = this.state.timeOut - 1;
+                                            if(timer <= 0) {
+                                                this.setState({
+                                                    isSend: false,
+                                                    timeOut: 120,
+                                                    disabled: false,
+                                                    sendInfo: '重新发送'
+                                                });
+                                                clearInterval(interval);
+                                            }else {
+                                                this.setState({
+                                                    timeOut: timer,
+                                                })
+                                            }
+                                        }, 1000);
+                                    }
+                                }
+                            }}>
+                                {(this.state.isSend) ? <Text style={styles.sendText}>{this.state.timeOut}S</Text> : <Text style={styles.sendText}>{this.state.sendInfo}</Text>}
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <View style={styles.inputWrapper}>
+                            <Text style={styles.inputText}>新密码</Text>
+                            <TextInput
+                                style={[theme.textInput, styles.customInput]}
                                 onChangeText={(password) => this.state.newPassword = password}
                                 placeholder="请输入新密码"
                                 placeholderTextColor={theme.lightGray}
@@ -185,8 +197,12 @@ export default class RetrievePsw extends React.Component {
                                 secureTextEntry={true}
                                 defaultValue={this.state.newPassword}
                             />
+                            <FontAwesome name={'angle-down'} size={30} color="#BBB" />
+                        </View>
+                        <View style={styles.inputWrapper}>
+                            <Text style={styles.inputText}>确认密码</Text>
                             <TextInput
-                                style={theme.textInput}
+                                style={[theme.textInput, styles.customInput]}
                                 onChangeText={(password) => this.state.rewrite = password}
                                 placeholder="再次确认新密码"
                                 placeholderTextColor={theme.lightGray}
@@ -195,10 +211,11 @@ export default class RetrievePsw extends React.Component {
                                 secureTextEntry={true}
                                 defaultValue={this.state.rewrite}
                             />
-                            <MyButton title="确定修改" style={{container: {marginTop: 0}}} onPress={this.change}/>
+                            <FontAwesome name={'angle-down'} size={30} color="#BBB" />
                         </View>
+                        <MyButton title="确定修改" style={{container: {marginTop: 0}}} onPress={this.change}/>
                     </View>
-                </ImageBackground>
+                </View>
             </View>
         )
     }

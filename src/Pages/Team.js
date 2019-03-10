@@ -6,6 +6,7 @@ import Api from '../Api/Api';
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
+        backgroundColor: '#EEE'
     },
 	backgroundImage:{
 	    flex:1,
@@ -16,24 +17,26 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		flex: 1,
-		paddingTop: 10,
-		paddingBottom: 10,
-		backgroundColor: 'rgba(255,255,255,0.2)',
-		marginBottom: 6
+		backgroundColor: '#fff',
+		marginBottom: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: 56
 	},
 	itemText: {
 		textAlign: 'center',
 		fontSize: 16,
 		lineHeight: 17,
 		height: 17,
-		color: '#ffffff'
+		color: '#333'
 	},
 	text: {
-		color: '#fff',
+		color: '#49AAF0',
 		marginBottom: 15,
 		marginTop: 15,
 		textAlign: 'center',
-		fontSize: 18
+		fontWeight: 'bold',
+		fontSize: 20
 	},
 	list: {
 		flex: 1,
@@ -104,49 +107,47 @@ class Team extends Component {
 	render () {
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<ScrollView>
-						<Text style={styles.text}>直推</Text>
-						<UserList id="ID" superior="注册时间" standard="矿机规格" />
-						<FlatList
-                            data={this.state.Team1}
-                            keyExtractor={this.keyExtractor}
-                            renderItem={({item}) =>
-                                <UserList
-                                    id={item.id}
-                                    superior={this.changeData(item.register_time)}
-                                    standard={item.machine_specifications}
-                                />
-                            }
-						/>
-						<Text style={styles.text}>间推</Text>
-						<UserList id="ID" superior="注册时间" standard="矿机规格" />
-						<FlatList
-                            data={this.state.Team2}
-                            keyExtractor={this.keyExtractor}
-                            renderItem={({item}) =>
-                                <UserList
-                                    id={item.id}
-                                    superior={this.changeData(item.register_time)}
-                                    standard={item.machine_specifications}
-                                />
-                            }
-						/>
-						<Text style={styles.text}>二级间推</Text>
-						<UserList id="ID" superior="注册时间" standard="矿机规格" />
-						<FlatList
-                            data={this.state.Team3}
-                            keyExtractor={this.keyExtractor}
-                            renderItem={({item}) =>
-                                <UserList
-                                    id={item.id}
-                                    superior={this.changeData(item.register_time)}
-                                    standard={item.machine_specifications}
-                                />
-                            }
-						/>
-					</ScrollView>
-			    </ImageBackground>
+				<ScrollView>
+					<Text style={styles.text}>直推</Text>
+					<UserList id="ID" superior="注册时间" standard="矿机规格" />
+					<FlatList
+                        data={this.state.Team1}
+                        keyExtractor={this.keyExtractor}
+                        renderItem={({item}) =>
+                            <UserList
+                                id={item.id}
+                                superior={this.changeData(item.register_time)}
+                                standard={item.machine_specifications}
+                            />
+                        }
+					/>
+					<Text style={styles.text}>间推</Text>
+					<UserList id="ID" superior="注册时间" standard="矿机规格" />
+					<FlatList
+                        data={this.state.Team2}
+                        keyExtractor={this.keyExtractor}
+                        renderItem={({item}) =>
+                            <UserList
+                                id={item.id}
+                                superior={this.changeData(item.register_time)}
+                                standard={item.machine_specifications}
+                            />
+                        }
+					/>
+					<Text style={styles.text}>二级间推</Text>
+					<UserList id="ID" superior="注册时间" standard="矿机规格" />
+					<FlatList
+                        data={this.state.Team3}
+                        keyExtractor={this.keyExtractor}
+                        renderItem={({item}) =>
+                            <UserList
+                                id={item.id}
+                                superior={this.changeData(item.register_time)}
+                                standard={item.machine_specifications}
+                            />
+                        }
+					/>
+				</ScrollView>
 			</View>
 		)
 	}
