@@ -47,13 +47,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     sendText: {
-        color: '#333',
+        color: '#49AAF0',
         paddingTop: 15,
         paddingBottom: 15,
         paddingLeft: 20,
         paddingRight: 20,
         textAlign: 'center',
         fontSize: 16,
+        fontWeight: 'bold',
         width: '30%',
     }
 });
