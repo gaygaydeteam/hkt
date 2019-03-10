@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
+        backgroundColor: '#eee'
     },
 	backgroundImage:{
 	    flex:1,
@@ -37,12 +38,14 @@ const styles = StyleSheet.create({
 	},
 	money: {
 		backgroundColor: '#fff',
-		height: 40,
-		minWidth: 100,
+		height: 50,
+		minWidth: 120,
 		marginRight: 15,
 		textAlign: 'center',
-		lineHeight: 40,
-		fontSize: 16
+		lineHeight: 50,
+		borderWidth: 1,
+		borderColor: '#fff',
+		fontSize: 18
 	},
 	inputStyle: {
 		height: 40,
@@ -52,7 +55,9 @@ const styles = StyleSheet.create({
 		paddingRight: 10,
 	},
 	moneyActive: {
-		color: '#cc9933'
+		color: '#49AAF0',
+		borderWidth: 1,
+		borderColor: '#49AAF0'
 	},
 	listWrapper: {
 		flex: 1,
@@ -108,21 +113,18 @@ class Buy extends Component {
 	render () {
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<Text style={styles.title}>矿机规格</Text>
-					<View style={styles.content}>
-						<View style={styles.listWrapper}>
-							<View style={styles.list}>
-								{money.map((item, index) => {
-									return <Text onPress={() => {
-										this.setState({isActive: item.key, machine_specifications: item.number})
-									}} style={(this.state.isActive == item.key) ? [styles.money, styles.moneyActive] : styles.money} key={item.key}>{item.number}</Text>
-								})}
-							</View>
-                            <MyButton title="购买" onPress={this.buy}/>
+				<View style={styles.content}>
+					<View style={styles.listWrapper}>
+						<View style={styles.list}>
+							{money.map((item, index) => {
+								return <Text onPress={() => {
+									this.setState({isActive: item.key, machine_specifications: item.number})
+								}} style={(this.state.isActive == item.key) ? [styles.money, styles.moneyActive] : styles.money} key={item.key}>{item.number}</Text>
+							})}
 						</View>
+                        <MyButton title="购买" onPress={this.buy}/>
 					</View>
-			    </ImageBackground>
+				</View>
 			</View>
 		)
 	}

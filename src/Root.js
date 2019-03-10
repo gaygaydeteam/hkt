@@ -391,8 +391,12 @@ const TabNavigator = createBottomTabNavigator({
         },
     }),
     tabBarOptions: {
-        activeTintColor: 'tomato',
+        activeTintColor: '#49AAF0',
         inactiveTintColor: 'gray',
+        style: {
+            paddingTop: 10,
+            paddingBottom: 10
+        }
     },
 });
 export default createAppContainer(TabNavigator);

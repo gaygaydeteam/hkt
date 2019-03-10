@@ -50,20 +50,18 @@ class ShareLink extends Component {
 		const { link } = this.props;
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<View style={styles.content}>
-						<View style={styles.outerContent}>
-							<Text style={{color: '#fff', fontSize: 16,width: '60%',textAlign: 'center',marginBottom:15}}>复制该链接分享好友即可注册下载HKT</Text>
-							<Text style={{color: 'gold', fontSize: 16,width: '70%'}}>{link}</Text>
-						    <MyButton 
-						    title="复制链接"
-				            onPress={() => {
-				                this.copy();
-				            }}
-				            />
-						</View>
+				<View style={styles.content}>
+					<View style={styles.outerContent}>
+						<Text style={{color: '#333', fontWeight: 'bold', fontSize: 18,width: '80%',textAlign: 'center',marginBottom:15}}>复制该链接分享好友即可注册下载HKT</Text>
+						<Text style={{color: '#49AAF0', fontSize: 16,width: '70%'}}>{link}</Text>
+					    <MyButton 
+					    title="复制链接"
+			            onPress={() => {
+			                this.copy();
+			            }}
+			            />
 					</View>
-			    </ImageBackground>
+				</View>
 			</View>
 		)
 	}

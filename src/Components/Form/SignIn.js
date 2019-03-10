@@ -129,7 +129,7 @@ class SignIn extends React.Component {
                             autoCapitalize="none"
                             autoComplete="off"
                         />
-                        <FontAwesome name={'angle-right'} size={30} color="#BBB" />
+                        <FontAwesome name={'angle-down'} size={30} color="#BBB" />
                     </View>
                     <View style={Styles.inputWrapper}>
                         <Text style={Styles.inputText}>密码</Text>
@@ -144,7 +144,7 @@ class SignIn extends React.Component {
                             defaultValue={password}
                             editable={editable}
                         />
-                        <FontAwesome name={'angle-right'} size={30} color="#BBB" />
+                        <FontAwesome name={'angle-down'} size={30} color="#BBB" />
                     </View>
                     <MyButton title="登录" activeOpacity={.5} onPress={editable ? this.login : this.lock}/>
                 </View>
