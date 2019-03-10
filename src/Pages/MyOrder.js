@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
+        backgroundColor: '#EEE'
     },
 	backgroundImage:{
 	    flex:1,
@@ -24,24 +25,30 @@ const styles = StyleSheet.create({
 		marginBottom: 30
 	},
 	text: {
-		color: '#fff',
+		color: '#333',
 		fontSize: 16,
 		marginBottom: 10
 	},
 	infoWrapper: {
 		backgroundColor: 'rgba(255,255,255,0.2)',
-		paddingLeft: 10,
+		paddingLeft: 20,
 		paddingRight: 10,
 		paddingTop: 10,
 		paddingBottom: 10,
 		borderRadius: 5,
 		width: '90%',
-		marginBottom: 10
+		marginBottom: 15,
+		backgroundColor: '#FFF',
+		shadowOffset:{w:10,h:10},
+		shadowColor:'#333',
+		shadowRadius:3,
+    	shadowOpacity:0.3,
 	},
 	list: {
 		height: '100%',
 		flex: 1,
 		alignItems: "center",
+
 	},
 	lastInfo: {
 		flex: 1,
@@ -120,135 +127,133 @@ class MyOrder extends Component {
         const { btnUploadText, uploadSuccess, imageRemoteUrl } = this.state;
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<ScrollView style={{marginTop: 10}}>
-						<View style={styles.list}>
-							{this.state.Info.map((item, index) => (
-								<View style={styles.infoWrapper} key={index}>
-									{(item.role == '') ? (
-										<View>
-											<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}匹配中</Text>
-											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
-											<Text style={styles.text}>HKT数量: {item.money}</Text>
+				<ScrollView style={{marginTop: 20}}>
+					<View style={styles.list}>
+						{this.state.Info.map((item, index) => (
+							<View style={styles.infoWrapper} key={index}>
+								{(item.role == '') ? (
+									<View>
+										<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}匹配中</Text>
+										<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
+										<Text style={styles.text}>HKT数量: {item.money}</Text>
+									</View>
+								) : (
+									<View>
+										<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}已出单</Text>
+										<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
+										{(item.role == 'saler') ? (
+											(item.buy_name == '' || item.buy_name == null) ? null : (
+												<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
+											)
+										) : (
+											(item.sale_name == '' || item.sale_name == null) ? null : (
+												<Text style={styles.text}>售卖人姓名: {item.sale_name}</Text>
+											)
+										)}
+										{(item.role == 'saler') ? (
+											(item.buy_alipay == '' || item.buy_alipay == null) ? null : (
+												<Text style={styles.text}>支付宝: {item.buy_alipay}</Text>
+											)
+										) : (
+											(item.sale_alipay == '' || item.sale_alipay == null) ? null : (
+												<Text style={styles.text}>支付宝: {item.sale_alipay}</Text>
+											)
+										)}
+										{(item.role == 'saler') ? (
+											(item.buy_bank_card == '' || item.buy_bank_card == null) ? null : (
+												<Text style={styles.text}>银行卡: {item.buy_bank_card}</Text>
+											)
+										) : (
+											(item.sale_bank_card == '' || item.sale_bank_card == null) ? null : (
+												<Text style={styles.text}>银行卡: {item.sale_bank_card}</Text>
+											)
+										)}
+										{(item.role == 'saler') ? (
+											(item.buy_phone == '' || item.buy_phone == null) ? null : (
+												<Text style={styles.text}>联系方式: {item.buy_phone}</Text>
+											)
+										) : (
+											(item.sale_phone == '' || item.sale_phone == null) ? null : (
+												<Text style={styles.text}>联系方式: {item.sale_phone}</Text>
+											)
+										)}
+										<Text style={styles.text}>HKT数量: {item.money}</Text>
+										{(item.image_url != '')? (<View style={{height: 600,marginBottom: 10}}>
+											<Image
+												style={{width: '100%', height: '100%',resizeMode:'contain'}}
+									          	source={{uri: item.image_url}}
+									        />
+								        </View>
+								        ) : null}
+										<View style={styles.lastInfo}>
+											{(item.role == 'buyer' && item.status == 1) ? (
+		                                        <TouchableOpacity onPress={()=> {
+		                                            ImagePicker.openPicker({
+		                                                width: 450,
+		                                                height: 800,
+		                                                cropping: true,
+		                                                writeTempFile: false,
+		                                                compressImageQuality: 1,
+		                                                includeBase64: true,
+		                                                cropperChooseText: '选择',
+		                                                cropperCancelText: '取消',
+		                                            }).then(image => {
+		                                                console.log(image);
+		                                                if(image.size > 5000000) {
+		                                                    Alert.alert('图片不能大于5M');
+		                                                    return;
+		                                                }
+		                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
+		                                                console.log(base64uri);
+		                                                this.uploadImage(id, token, base64uri);
+		                                            }).catch(error => {
+		                                                console.log(error);
+		                                            });
+		                                        }}>
+		                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : ''}</Text>
+		                                        </TouchableOpacity>
+		                                        ) : null
+											}
+											{(item.status == 0 && item.role == 'buyer') ? (
+												<Text style={styles.btnRemit}>已打款</Text>
+											) : (
+												<TouchableOpacity onPress={() => {
+		                                            if(!uploadSuccess && item.role == 'buyer') {
+		                                                Alert.alert('请先上传凭证');
+		                                                return;
+		                                            }
+													let formData = new FormData();
+													formData.append('id', id);
+													formData.append('token', token);
+		                                            formData.append('list_id', item.list_id);
+		                                            formData.append('image_url', imageRemoteUrl)
+													Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
+														if(responseJson.code == 'success') {
+															let formData1 = new FormData();
+															formData1.append('id', id);
+															formData1.append('token', token);
+															Api.request(apiUri.getMyOrder, 'POST', formData1).then((responseJson) => {
+													            if(responseJson.code == 'error') {
+													                global.toast.show(responseJson.message);
+													                return;
+													            }
+														        this.setState({Info: responseJson.data});
+														    });
+														}
+											            Alert.alert(responseJson.message);
+												    });
+												}}>
+		                                            <Text style={styles.btnRemit}>{(item.role == 'saler') ? '确认收款' : '确认打款'}</Text>
+		                                        </TouchableOpacity>
+											)}
 										</View>
-									) : (
-										<View>
-											<Text style={styles.text}>{(item.role == 'saler') ? '挂卖' : '挂买'}已出单</Text>
-											<Text style={styles.text}>订单时间: {this.changeData(item.add_time)}</Text>
-											{(item.role == 'saler') ? (
-												(item.buy_name == '' || item.buy_name == null) ? null : (
-													<Text style={styles.text}>购入人姓名: {item.buy_name}</Text>
-												)
-											) : (
-												(item.sale_name == '' || item.sale_name == null) ? null : (
-													<Text style={styles.text}>售卖人姓名: {item.sale_name}</Text>
-												)
-											)}
-											{(item.role == 'saler') ? (
-												(item.buy_alipay == '' || item.buy_alipay == null) ? null : (
-													<Text style={styles.text}>支付宝: {item.buy_alipay}</Text>
-												)
-											) : (
-												(item.sale_alipay == '' || item.sale_alipay == null) ? null : (
-													<Text style={styles.text}>支付宝: {item.sale_alipay}</Text>
-												)
-											)}
-											{(item.role == 'saler') ? (
-												(item.buy_bank_card == '' || item.buy_bank_card == null) ? null : (
-													<Text style={styles.text}>银行卡: {item.buy_bank_card}</Text>
-												)
-											) : (
-												(item.sale_bank_card == '' || item.sale_bank_card == null) ? null : (
-													<Text style={styles.text}>银行卡: {item.sale_bank_card}</Text>
-												)
-											)}
-											{(item.role == 'saler') ? (
-												(item.buy_phone == '' || item.buy_phone == null) ? null : (
-													<Text style={styles.text}>联系方式: {item.buy_phone}</Text>
-												)
-											) : (
-												(item.sale_phone == '' || item.sale_phone == null) ? null : (
-													<Text style={styles.text}>联系方式: {item.sale_phone}</Text>
-												)
-											)}
-											<Text style={styles.text}>HKT数量: {item.money}</Text>
-											{(item.image_url != '')? (<View style={{height: 600,marginBottom: 10}}>
-												<Image
-													style={{width: '100%', height: '100%',resizeMode:'contain'}}
-										          	source={{uri: item.image_url}}
-										        />
-									        </View>
-									        ) : null}
-											<View style={styles.lastInfo}>
-												{(item.role == 'buyer' && item.status == 1) ? (
-			                                        <TouchableOpacity onPress={()=> {
-			                                            ImagePicker.openPicker({
-			                                                width: 450,
-			                                                height: 800,
-			                                                cropping: true,
-			                                                writeTempFile: false,
-			                                                compressImageQuality: 1,
-			                                                includeBase64: true,
-			                                                cropperChooseText: '选择',
-			                                                cropperCancelText: '取消',
-			                                            }).then(image => {
-			                                                console.log(image);
-			                                                if(image.size > 5000000) {
-			                                                    Alert.alert('图片不能大于5M');
-			                                                    return;
-			                                                }
-			                                                let base64uri = 'data:' + image.mime + ';base64,' + image.data;
-			                                                console.log(base64uri);
-			                                                this.uploadImage(id, token, base64uri);
-			                                            }).catch(error => {
-			                                                console.log(error);
-			                                            });
-			                                        }}>
-			                                            <Text style={styles.btnUpload}>{(item.role == 'buyer') ? btnUploadText : ''}</Text>
-			                                        </TouchableOpacity>
-			                                        ) : null
-												}
-												{(item.status == 0 && item.role == 'buyer') ? (
-													<Text style={styles.btnRemit}>已打款</Text>
-												) : (
-													<TouchableOpacity onPress={() => {
-			                                            if(!uploadSuccess && item.role == 'buyer') {
-			                                                Alert.alert('请先上传凭证');
-			                                                return;
-			                                            }
-														let formData = new FormData();
-														formData.append('id', id);
-														formData.append('token', token);
-			                                            formData.append('list_id', item.list_id);
-			                                            formData.append('image_url', imageRemoteUrl)
-														Api.request(apiUri.getDealCheck, 'POST', formData).then((responseJson) => {
-															if(responseJson.code == 'success') {
-																let formData1 = new FormData();
-																formData1.append('id', id);
-																formData1.append('token', token);
-																Api.request(apiUri.getMyOrder, 'POST', formData1).then((responseJson) => {
-														            if(responseJson.code == 'error') {
-														                global.toast.show(responseJson.message);
-														                return;
-														            }
-															        this.setState({Info: responseJson.data});
-															    });
-															}
-												            Alert.alert(responseJson.message);
-													    });
-													}}>
-			                                            <Text style={styles.btnRemit}>{(item.role == 'saler') ? '确认收款' : '确认打款'}</Text>
-			                                        </TouchableOpacity>
-												)}
-											</View>
-										</View>
-									)}
+									</View>
+								)}
 
-								</View>
-							))}
-						</View>
-					</ScrollView>
-			    </ImageBackground>
+							</View>
+						))}
+					</View>
+				</ScrollView>
 			</View>
 		)
 	}
