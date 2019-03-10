@@ -79,7 +79,7 @@ const Navigator = createStackNavigator({
         else {
             return {
                 headerStyle: {
-                    backgroundColor: 'black',
+                    backgroundColor: '#49AAF0',
                 },
                 headerTintColor: 'white',
             }

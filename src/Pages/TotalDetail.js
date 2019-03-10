@@ -7,6 +7,7 @@ import Api from '../Api/Api';
 const styles = StyleSheet.create({
 	container: {
         flex: 1,
+        backgroundColor: '#EEE'
     },
 	backgroundImage:{
 	    flex:1,
@@ -17,20 +18,21 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		flex: 1,
-		paddingTop: 10,
-		paddingBottom: 10,
-		backgroundColor: 'rgba(255,255,255,0.2)',
-		marginBottom: 6
+		backgroundColor: '#fff',
+		marginBottom: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: 56
 	},
 	itemText: {
 		textAlign: 'center',
 		fontSize: 16,
 		lineHeight: 17,
 		height: 17,
-		color: '#ffffff'
+		color: '#333'
 	},
 	viewmore: {
-		color: '#fff'
+		color: '#333'
 	},
 	list: {
 		flex: 1,
@@ -109,19 +111,16 @@ class TotalDetail extends Component {
 	render () {
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-					<ScrollView>
-						<View style={{marginBottom: 20, marginTop: 10}}>
-							<Text style={styles.title}>矿机交易记录</Text>
-							<TransactionList head="true" number="数量" time="购买时间" remark="备注"/>
-							<FlatList
-								keyExtractor={(item, index) => index.toString()}
-								data={this.state.Total}
-								renderItem={({item}) => <TransactionList head="false" number={item.money} time={item.add_time} remark={item.remark}/>}
-							/>
-						</View>
-					</ScrollView>
-			    </ImageBackground>
+				<ScrollView>
+					<View style={{marginBottom: 20, marginTop: 10}}>
+						<TransactionList head="true" number="数量" time="购买时间" remark="备注"/>
+						<FlatList
+							keyExtractor={(item, index) => index.toString()}
+							data={this.state.Total}
+							renderItem={({item}) => <TransactionList head="false" number={item.money} time={item.add_time} remark={item.remark}/>}
+						/>
+					</View>
+				</ScrollView>
 			</View>
 		)
 	}
