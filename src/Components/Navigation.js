@@ -5,15 +5,12 @@ import { theme, apiUri  } from '../Index';
 import Api from '../Api/Api';
 const Styles = {
     container: {
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        borderRadius: 20,
-        paddingTop: 10,
+        paddingTop: 20,
         paddingBottom: 10,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
+        backgroundColor: '#FFF'
     },
     item: {
         width: '31%',
@@ -34,7 +31,7 @@ const Styles = {
     },
     itemTitle: {
         fontSize: 16,
-        color: '#fff',
+        color: '#333',
         marginTop: 20
     }
 }
@@ -86,7 +83,7 @@ export default class Navigation extends Component{
                                 this.link(item.id);
                             }}}>
                             <View style={Styles.item}>
-                                <FontAwesome name={item.icon} size={26} color="#cc9933" />
+                                <FontAwesome name={item.icon} size={40} color="#cc9933" />
                                 <Text style={Styles.itemTitle}>{item.title}</Text>
                             </View>
                         </TouchableWithoutFeedback>

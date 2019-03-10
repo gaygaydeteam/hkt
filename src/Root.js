@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Image, Text, View, ScrollView, ImageBackground, TouchableOpacity, Alert } from 'react-native';
+import { Image, Text, View, ScrollView, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import My from './Pages/My';
 import UserProfile from './Components/Account/UserProfile';
 import Navigation from './Components/Navigation';
@@ -15,6 +17,10 @@ const Styles = {
         flex: 1,
         resizeMode: 'cover',
         width: null,
+    },
+    header: {
+        backgroundColor: '#49AAF0',
+        paddingBottom: 10
     },
     home: {
         userProfile: {
@@ -29,15 +35,15 @@ const Styles = {
             }
         },
         main: {
-
+            backgroundColor: '#EEE'
         },
         balanceAndCredit: {
             container: {
-                marginTop: 80,
+                marginTop: 20,
                 paddingTop: 5,
                 paddingBottom: 5,
-                backgroundColor: theme.opacityWhite,
-                flexDirection: 'row'
+                backgroundColor: '#49AAF0',
+                flexDirection: 'row',
             },
             text: {
                 flex: 1,
@@ -49,17 +55,11 @@ const Styles = {
             },
             balance: {
                 flex: 1,
-                flexDirection: 'row',
                 justifyContent: 'center',
-                borderRightWidth: 1,
-                borderRightColor: '#fff',
             },
             machineBuy: {
                 flex: 1,
-                flexDirection: 'row',
                 justifyContent: 'center',
-                borderRightWidth: 1,
-                borderRightColor: '#fff',
             },
             credit: {
                 flex: 1,
@@ -67,9 +67,21 @@ const Styles = {
         },
         outBtnWrapper: {
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+            backgroundColor: '#fff',
+            paddingLeft: 40,
+            paddingRight: 40,
+            paddingTop: 20,
+            paddingBottom: 20,
+            marginTop: 15
         }
+    },
+    quitWrapper: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     businessWrapper: {
         marginTop: 30,
@@ -112,6 +124,16 @@ const Styles = {
         height: 0,
         paddingBottom: '100%',
         borderRadius: 5
+    },
+    quit: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: '#000',
+        marginRight: 20
+    },
+    quitText: {
+        fontSize: 20,
     }
 }
 const business = [
@@ -202,8 +224,8 @@ class Home extends Component {
     render() {
         const { mine_balance, machine_specifications, frozen_money, navigation, is_real_name, out_money, id, token } = this.props
         return (
-            <ImageBackground source={appBg} style={Styles.backgroundImage}>
-                <ScrollView style={Styles.home.main}>
+            <ScrollView style={Styles.home.main}>
+                <View style={Styles.header}>
                     <UserProfile editable={false} style={Styles.home.userProfile}/>
                     <View style={Styles.home.balanceAndCredit.container}>
                         <View style={Styles.home.balanceAndCredit.machineBuy}>
@@ -218,28 +240,45 @@ class Home extends Component {
                                     Alert.alert('您的身份信息尚未完善，请前往我的页面完善个人信息，完成实名认证审核')
                                 }
                             }}>
+                                <View style={{flex: 1, alignItems: 'center'}}>
+                                    <MaterialCommunityIcons name={'cart-plus'} size={40} color="#FFF" />
+                                </View>
                                 <Text style={Styles.home.balanceAndCredit.text}>获得矿机</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.home.balanceAndCredit.balance}>
                             <TouchableOpacity onPress={() => navigation.navigate('HangUp')}>
+                                <View style={{flex: 1, alignItems: 'center'}}>
+                                    <MaterialCommunityIcons name={'currency-cny'} size={40} color="#FFF" />
+                                </View>
                                 <Text style={Styles.home.balanceAndCredit.text}>HKT: {mine_balance}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.home.balanceAndCredit.credit}>
+                            <View style={{flex: 1, alignItems: 'center'}}>
+                                <MaterialCommunityIcons name={'database-lock'} size={40} color="#FFF" />
+                                {/* <Image style={{width: 60, height: 60}} source={require('../assets/hengtai/gucci.png')} /> */}
+                            </View>
                             <Text style={Styles.home.balanceAndCredit.text}>冻结HKT: {frozen_money}</Text>
                         </View>
                     </View>
-                    <Navigation list={navigateList} nav={navigation} id={id} token={token} out_money={out_money}/>
+                </View>
+                <Navigation list={navigateList} nav={navigation} id={id} token={token} out_money={out_money}/>
+                <TouchableWithoutFeedback 
+                    onPress={() => {
+                        this.props.reset();
+                        global.toast.show('已退出');
+                        navigation.navigate('SignIn');
+                    }}>
                     <View style={Styles.home.outBtnWrapper}>
-                        <MyButton title="退出登陆" style={{container: {marginTop: 10}}} activeOpacity={.5} onPress={() => {
-                            this.props.reset();
-                            global.toast.show('已退出');
-                            navigation.navigate('SignIn');
-                        }}/>
+                        <View style={Styles.quitWrapper}>
+                            <Image style={Styles.quit} source={require('../assets/hengtai/gucci.png')} />
+                            <Text style={Styles.quitText}>退出登陆</Text>
+                        </View>
+                        <FontAwesome name={'angle-right'} size={30} color="#BBB" />
                     </View>
-                </ScrollView>
-            </ImageBackground>
+                </TouchableWithoutFeedback>
+            </ScrollView>
         );
     }
   }

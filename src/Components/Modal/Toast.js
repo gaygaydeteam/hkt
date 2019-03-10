@@ -10,7 +10,7 @@ const Styles = {
     inner: {
         position: 'relative',
         right: '50%',
-        backgroundColor: 'rgba(255, 255, 255, .2)',
+        backgroundColor: 'rgba(0, 0, 0, .2)',
         borderRadius: 50,
         paddingTop: 5,
         paddingBottom: 5,
@@ -19,7 +19,7 @@ const Styles = {
     },
     text: {
         fontSize: 16,
-        color: '#fff',
+        color: '#333',
     }
 }
 class Toast extends Component {

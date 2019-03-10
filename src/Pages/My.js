@@ -6,13 +6,16 @@ import UserProfile from '../Components/Account/UserProfile';
 const styles = {
 	userProfile: {
         container: {
-            marginTop: theme.appTopHeight,
+            paddingTop: theme.appTopHeight + 20,
+            backgroundColor: '#49AAF0',
+            paddingBottom: 20
         },
         avatar: {
-            width: 55,
-            height: 55,
-            borderRadius: 40,
-            marginLeft: 15.
+            width: 80,
+            height: 80,
+            borderRadius: 0,
+            marginLeft: 15,
+            marginRight: 15
         },
         name: {
             color: '#fff',
@@ -23,12 +26,13 @@ const styles = {
         }
     },
 	itemList: {
-		backgroundColor: theme.opacityWhite,
-		paddingTop: 15,
-		paddingBottom:15,
-		paddingLeft: 10,
+		backgroundColor: '#fff',
+		paddingTop: 20,
+		paddingBottom:20,
+		paddingLeft: 20,
 		paddingRight:10,
-		marginTop: 15,
+        borderBottomWidth: 1,
+        borderColor: '#EEE',
         justifyContent: 'space-between',
         alignItems: 'center',
         flex: 1,
@@ -36,6 +40,7 @@ const styles = {
 	},
 	container: {
         flex: 1,
+        backgroundColor: '#eee'
     },
 	backgroundImage:{
 	    flex:1,
@@ -66,8 +71,8 @@ class List extends Component {
   		}}>
         <View style={ styles.itemList }>
         	<View style={{ flexDirection: 'row', flex: 0, alignItems: 'center' }}>
-  	      		<FontAwesome style={styles.listIcon} name={this.props.icon} color='#cc9933' size={18}/>
-  	      		<Text style={{ paddingLeft:30, color: 'white', fontSize: 18, fontWeight: 'bold' }}>{this.props.name}</Text>
+  	      		<FontAwesome style={styles.listIcon} name={this.props.icon} color='#cc9933' size={28}/>
+  	      		<Text style={{ paddingLeft:50, color: '#333', fontSize: 20, fontWeight: 'bold' }}>{this.props.name}</Text>
         	</View>
         	<View style={{ flex: 0 }}>
         		<FontAwesome  name="chevron-right" color="white" size={18}/>
@@ -89,14 +94,12 @@ export default class My extends Component {
         const {navigation} = this.props;
 		return (
 			<View style={styles.container}>
-				<ImageBackground source={appBg} style={styles.backgroundImage}>
-                    <UserProfile editable={true} style={styles.userProfile}/>
-                    <ScrollView>
-                        <List name="实名认证" icon="vcard-o" id="PersonalInfo" nav={navigation}/>
-                        <List name="修改密码" icon="cart-plus" id="ChangePassword" nav={navigation}/>
-                        <List name="收货地址" icon="tags" nav={navigation}/>
-                    </ScrollView>
-				</ImageBackground>
+                <UserProfile editable={true} style={styles.userProfile}/>
+                <ScrollView>
+                    <List name="实名认证" icon="vcard-o" id="PersonalInfo" nav={navigation}/>
+                    <List name="修改密码" icon="cart-plus" id="ChangePassword" nav={navigation}/>
+                    <List name="收货地址" icon="tags" nav={navigation}/>
+                </ScrollView>
 			</View>
 		)
 	}

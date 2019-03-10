@@ -14,19 +14,14 @@ module.exports = {
         opacityWhite: 'rgba(255, 255, 255, .2)',
         textInput: {
             width: '80%',
-            fontSize: 16,
-            color: '#fff',
-            marginBottom: 20,
+            fontSize: 20,
             paddingTop: 15,
             paddingBottom: 15,
             paddingLeft: 20,
             paddingRight: 20,
-            textAlign: 'center',
-            backgroundColor: 'rgba(255, 255, 255, .2)',
         },
         textInputDisable: {
-            color: '#ccc',
-            opacity: .9,
+            opacity: .8,
         }
     },
     apiUri: {
